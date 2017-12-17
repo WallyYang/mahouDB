@@ -1,5 +1,5 @@
 class Node():
-    def __init__(self, data, is_black=True, left=None, right=None):
+    def __init__(self, data, is_black, left=None, right=None):
         self._data = data
         self._left = left
         self._right = right
@@ -7,7 +7,7 @@ class Node():
 
 class Tree():
     def __init__(self, data):
-        self._root = None
+        pass
 
     def insert(self, data):
         pass
