@@ -1,13 +1,13 @@
 class Node():
-    def __init__(self, data):
+    def __init__(self, data, is_black=True, left=None, right=None):
         self._data = data
-        self._left = None
-        self._right = None
-        self._is_black = True
+        self._left = left
+        self._right = right
+        self._is_black = is_black
 
 class Tree():
     def __init__(self, data):
-        self._root = Node(data)
+        self._root = None
 
     def insert(self, data):
         pass
