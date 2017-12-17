@@ -6,8 +6,8 @@ class Node():
         self._is_black = is_black
 
 class Tree():
-    def __init__(self, data):
-        pass
+    def __init__(self):
+        self.root = None
 
     def insert(self, data):
         pass
