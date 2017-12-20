@@ -51,9 +51,14 @@ class Node():
     def contains(self, data):
         if self._data == data:
             return True
-        else:
-            if data < self._data:
+        elif data < self._data:
+            if self._left == None:
+                return False
+            else:
                 return self._left.contains(data)
+        else:
+            if self._right == None:
+                return False
             else:
                 return self._right.contains(data)
 
