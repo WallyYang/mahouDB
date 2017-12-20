@@ -148,8 +148,118 @@ class Tree():
                 '''
             self.root._is_black=True
 
+    def rb_transplant(self,n1,n2):
+        if n1._parent == None:
+            self.root = n2
+        elif n1 == n1._parent._left:
+            n1._parent._left = n2
+        else:
+            n1._parent._right = n2
+        n2._parent = n1._parent
+
+    def find_node(self,data):
+        x = self.root
+        target = x
+        while target._data != data:
+            if data < target._data:
+                target = x._left
+                target._paretn = x
+                x = x._left
+            else:
+                target = x._right
+                target._parent = x
+                x = x._right
+        return target
+
+    def min(self):
+        check = True
+        copy = self
+        copy._parent = self._parent
+        while check:
+            if copy._left == None:
+                check = False
+            else:
+                self = copy._left
+                self._parent = copy
+                copy = self
+                copy = self._parent
+
     def delete(self, data):
-        pass
+        del_node = self.find_node(data)
+        y = del_node
+        y_original_color = y._is_black
+        if del_node._left == None:
+            x = del_node._right
+            self.rb_transplant(del_node,del_node._right)
+        elif del_node._right == None:
+            x = del_node._left
+            self.rb_transplant(del_node, del_node._left)
+        else:
+            y = del_node._right.min()
+            y_original_color = y._is_black
+            x = y._right
+            if y._parent == del_node:
+                x._parent = y
+            else:
+                self.rb_transplant(y,y._right)
+                y._right = del_node._right
+                y._right._parent = y
+            self.rb_transplant(del_node,y)
+            y._left = del_node._left
+            y._left._parent = y
+            y._is_black = del_node._is_black
+        if y_original_color == del_node._is_black:
+            self.rb_delete_fixup(x)
+
+    def rb_delete_fixup(self,x):
+        while x != self.root and x._is_black == True:
+            if x == x._parent._left:
+                w = x._parent._right
+                # case 1
+                if not w._is_black:
+                    w._is_black = True
+                    x._parent._is_black = False
+                    self.left_rotate(x._parent)
+                    w = x._parent._right
+                # case 2
+                if w._left._is_black and w._right._is_black:
+                    w._is_black = False
+                    x = x._parent
+                # case 3
+                elif w._right._is_black:
+                    w._left._is_black = True
+                    w._is_black = False
+                    self.right_rotate(w)
+                    w = x._parent._right
+                # case 4
+                else:
+                    w._is_black = x._parent._is_black
+                    x._parent._is_black = True
+                    w._right._is_black = True
+                    self.left_rotate(x._parent)
+                    x = self.root
+            else:
+                w = x._parent._left
+                if not w._is_black:
+                    w._is_black = True
+                    x._parent._is_black = False
+                    self.right_rotate(x._parent)
+                    w = x._parent._left
+                if w._right._is_black and w._left._is_black:
+                    w._is_black = False
+                    x = x._parent
+                elif w._left._is_black:
+                    w._right._is_black = True
+                    w._is_black = False
+                    self.left_rotate(w)
+                    w = x._parent._left
+                else:
+                    w._is_black = x._parent._is_black
+                    x._parent._is_black = True
+                    w._left._is_black = True
+                    self.right_rotate(x._parent)
+                    x = self.root
+        x._is_black = True
 
     def find(self, data):
         pass
