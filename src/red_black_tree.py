@@ -256,13 +256,10 @@ class Tree():
             if y._parent == del_node and x != None:
                 x._parent = y
             else:
-                if y._right == None:
-                    y._right = Node(None,True)
-                    self.rb_transplant(y,y._right)
-                else:
-                    self.rb_transplant(y, y._right)
-                y._right = del_node._right
-                y._right._parent = y
+                if y._right != None:
+                   self.rb_transplant(y, y._right)
+                   y._right = del_node._right
+                   y._right._parent = y
             self.rb_transplant(del_node, y)
             y._left = del_node._left
             y._left._parent = y
