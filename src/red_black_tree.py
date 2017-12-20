@@ -1,5 +1,10 @@
 class Node():
-    def __init__(self, data:tuple, is_black, parent=None, left=None, right=None):
+    def __init__(self,
+                 data: tuple,
+                 is_black,
+                 parent=None,
+                 left=None,
+                 right=None):
         """Constructor for a Red-Black Tree Node
 
         Keyword arguments:
@@ -33,7 +38,8 @@ class Node():
     def print_node_dot(self):
         node_name = "node%s" % id(self)
         color = "black" if self._is_black else "red"
-        print(""" %s [ label="%s", color="%s" ];""" % (node_name, self._data, color))
+        print(""" %s [ label="%s", color="%s" ];""" % (node_name, self._data,
+                                                       color))
 
         if self._left != None:
             self._left.print_node_dot()
@@ -72,7 +78,6 @@ class Tree():
     find(self, data) -- find a node given the data
     """
 
-
     def __init__(self):
         """Constructor for a Red-Black Tree, with an empty tree"""
         self.root = None
@@ -97,93 +102,93 @@ class Tree():
         else:
             return self.root.contains(data)
 
-    def left_rotate(self,node):
-        new_node=node._right
-        if node==self.root:
+    def left_rotate(self, node):
+        new_node = node._right
+        if node == self.root:
             self.root = new_node
         else:
-            if node==node._parent._left:
+            if node == node._parent._left:
                 node._parent._left = new_node
             else:
                 node._parent._right = new_node
-        new_node._parent=node._parent
-        node._right=new_node._left
-        if new_node._left!=None:
-            new_node._left._parent=node
-        new_node._left=node
-        node._parent=new_node
+        new_node._parent = node._parent
+        node._right = new_node._left
+        if new_node._left != None:
+            new_node._left._parent = node
+        new_node._left = node
+        node._parent = new_node
 
-    def right_rotate(self,node):
-        new_node=node._left
-        if node==self.root:
+    def right_rotate(self, node):
+        new_node = node._left
+        if node == self.root:
             self.root = new_node
         else:
-            if node==node._parent._left:
+            if node == node._parent._left:
                 node._parent._left = new_node
             else:
                 node._parent._right = new_node
-        new_node._parent=node._parent
-        node._left=new_node._right
-        if new_node._right!=None:
-            new_node._right._parent=node
-        new_node._right=node
-        node._parent=new_node
+        new_node._parent = node._parent
+        node._left = new_node._right
+        if new_node._right != None:
+            new_node._right._parent = node
+        new_node._right = node
+        node._parent = new_node
 
     def insert(self, data):
         '''
         reference: CLRS
         '''
-        if self.root==None:
-            self.root=Node(data,True,None)
+        if self.root == None:
+            self.root = Node(data, True, None)
         else:
-            x=self.root
-            done=False
+            x = self.root
+            done = False
             while not done:
-                if data<x._data:
-                    if x._left==None:
-                        x._left=Node(data,False,x)
-                        done=True
-                    x=x._left
+                if data < x._data:
+                    if x._left == None:
+                        x._left = Node(data, False, x)
+                        done = True
+                    x = x._left
                 else:
-                    if x._right==None:
-                        x._right=Node(data,False,x)
-                        done=True
-                    x=x._right
-            while x._parent!=None and x._parent._parent!=None and not x._parent._is_black:
-                parent=x._parent
-                grandparent=parent._parent
-                sibling_of_parent=None
-                if parent==grandparent._left:
-                    sibling_of_parent=grandparent._right
-                elif parent==grandparent._right:
-                    sibling_of_parent=grandparent._left
+                    if x._right == None:
+                        x._right = Node(data, False, x)
+                        done = True
+                    x = x._right
+            while x._parent != None and x._parent._parent != None and not x._parent._is_black:
+                parent = x._parent
+                grandparent = parent._parent
+                sibling_of_parent = None
+                if parent == grandparent._left:
+                    sibling_of_parent = grandparent._right
+                elif parent == grandparent._right:
+                    sibling_of_parent = grandparent._left
                 # Case 1
-                if sibling_of_parent!=None and not sibling_of_parent._is_black:
-                    parent._is_black=True
-                    sibling_of_parent._is_black=True
-                    grandparent._is_black=False
-                    x=grandparent
+                if sibling_of_parent != None and not sibling_of_parent._is_black:
+                    parent._is_black = True
+                    sibling_of_parent._is_black = True
+                    grandparent._is_black = False
+                    x = grandparent
                 # Case 2
-                elif parent==grandparent._left:
-                    if x==parent._right: # Case 2.5
+                elif parent == grandparent._left:
+                    if x == parent._right:  # Case 2.5
                         self.left_rotate(parent)
                         # child became parent
-                        temp=x
-                        x=parent
-                        parent=temp
-                    parent._is_black=True
-                    grandparent._is_black=False
+                        temp = x
+                        x = parent
+                        parent = temp
+                    parent._is_black = True
+                    grandparent._is_black = False
                     # Perform right rotation on grandparent
                     self.right_rotate(grandparent)
                 # Case 3
-                elif parent==grandparent._right:
-                    if x==parent._left: # Case3.5
+                elif parent == grandparent._right:
+                    if x == parent._left:  # Case3.5
                         self.right_rotate(parent)
-                        temp=x
-                        x=parent
-                        parent=temp
-                    parent._is_black=True
-                    grandparent._is_black=False
+                        temp = x
+                        x = parent
+                        parent = temp
+                    parent._is_black = True
+                    grandparent._is_black = False
                     # Perform left rotation on grandparent
                     self.left_rotate(grandparent)
                 '''
@@ -193,9 +198,9 @@ class Tree():
                 and the original sibling of x(now a child of original grandparent) is black if its parent is red,
                 which satisfies the rules.
                 '''
-            self.root._is_black=True
+            self.root._is_black = True
 
-    def rb_transplant(self,n1,n2):
+    def rb_transplant(self, n1, n2):
         if n1._parent == None:
             self.root = n2
         elif n1 == n1._parent._left:
@@ -204,7 +209,7 @@ class Tree():
             n1._parent._right = n2
         n2._parent = n1._parent
 
-    def find_node(self,data):
+    def find_node(self, data):
         x = self.root
         target = x
         while target._data != data:
@@ -237,7 +242,7 @@ class Tree():
         y_original_color = y._is_black
         if del_node._left == None:
             x = del_node._right
-            self.rb_transplant(del_node,del_node._right)
+            self.rb_transplant(del_node, del_node._right)
         elif del_node._right == None:
             x = del_node._left
             self.rb_transplant(del_node, del_node._left)
@@ -248,17 +253,17 @@ class Tree():
             if y._parent == del_node:
                 x._parent = y
             else:
-                self.rb_transplant(y,y._right)
+                self.rb_transplant(y, y._right)
                 y._right = del_node._right
                 y._right._parent = y
-            self.rb_transplant(del_node,y)
+            self.rb_transplant(del_node, y)
             y._left = del_node._left
             y._left._parent = y
             y._is_black = del_node._is_black
         if y_original_color == del_node._is_black:
             self.rb_delete_fixup(x)
 
-    def rb_delete_fixup(self,x):
+    def rb_delete_fixup(self, x):
         while x != self.root and x._is_black == True:
             if x == x._parent._left:
                 w = x._parent._right
@@ -321,4 +326,9 @@ if __name__ == '__main__':
     tree.insert(17)
     tree.insert(24)
     tree.insert(42)
+    tree.insert(0)
+    tree.insert(25)
+    tree.insert(43)
+    tree.insert(45)
+    tree.delete(43)
     tree.print_tree_dot()
