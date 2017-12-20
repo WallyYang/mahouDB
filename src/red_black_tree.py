@@ -33,7 +33,7 @@ class Node():
     def print_node_dot(self):
         node_name = "node%s" % id(self)
         color = "black" if self._is_black else "red"
-        print(""" %s [ label="%s", fillcolor="%s" ];""" % (node_name, self._data, color))
+        print(""" %s [ label="%s", color="%s" ];""" % (node_name, self._data, color))
 
         if self._left != None:
             self._left.print_node_dot()
@@ -71,7 +71,7 @@ class Tree():
 
     def print_tree_dot(self):
         print("digraph {")
-        print(""" node [ style="filled", fontcolor="white" ]""")
+        print(""" node [ style="filled", color="grey", fontcolor="white" ]""")
         if self.root != None:
             self.root.print_node_dot()
         print("}")
@@ -295,7 +295,4 @@ if __name__ == '__main__':
     tree.insert(10)
     tree.insert(3)
     tree.insert(14)
-    tree.insert(17)
-    tree.insert(24)
-    tree.insert(42)
-    #tree.print_tree_dot()
+    tree.print_tree_dot()
