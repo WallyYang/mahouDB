@@ -30,6 +30,24 @@ class Node():
             print("None")
         print("}")
 
+    def print_node_dot(self):
+        node_name = "node%s" % id(self)
+        color = "black" if self._is_black else "red"
+        print(""" %s [ label="%s", fillcolor="%s" ];""" % (node_name, self._data, color))
+
+        if self._left != None:
+            self._left.print_node_dot()
+            print(""" %s -> node%s;""" % (node_name, id(self._left)))
+        else:
+            print(""" NoneL%s [label="None"];""" % (node_name))
+            print(""" %s -> NoneL%s;""" % (node_name, node_name))
+        if self._right != None:
+            self._right.print_node_dot()
+            print(""" %s -> node%s;""" % (node_name, id(self._right)))
+        else:
+            print(""" NoneR%s [label="None"];""" % (node_name))
+            print(""" %s -> NoneR%s;""" % (node_name, node_name))
+
 class Tree():
     """A Red Black Tree for indexing
 
@@ -50,7 +68,13 @@ class Tree():
             print("None")
         else:
             self.root.print_node()
-        
+
+    def print_tree_dot(self):
+        print("digraph {")
+        print(""" node [ style="filled", fontcolor="white" ]""")
+        if self.root != None:
+            self.root.print_node_dot()
+        print("}")
 
     def left_rotate(self,node):
         new_node=self._right
@@ -66,7 +90,7 @@ class Tree():
         new_node._left._parent=node
         new_node._left=node
         node._parent=new_node
-        
+
     def right_rotate(self,node):
         new_node=self._left
         if node==self.root:
@@ -81,7 +105,7 @@ class Tree():
         new_node._right.parent=node
         new_node._right=node
         node._parent=new_node
-    
+
     def insert(self, data):
         '''
         reference: CLRS
@@ -140,10 +164,10 @@ class Tree():
                     # Perform left rotation on grandparent
                     self.left_rotate(grandparent)
                 '''
-                After running Case 2 or 3(right-hand version of 2), 
-                parent(x._parent) will be black, the original grandparent and x will be red, 
-                the original sibling_of_parent is black since Case 1 is not the case, 
-                and the original sibling of x(now a child of original grandparent) is black if its parent is red, 
+                After running Case 2 or 3(right-hand version of 2),
+                parent(x._parent) will be black, the original grandparent and x will be red,
+                the original sibling_of_parent is black since Case 1 is not the case,
+                and the original sibling of x(now a child of original grandparent) is black if its parent is red,
                 which satisfies the rules.
                 '''
             self.root._is_black=True
@@ -267,11 +291,11 @@ class Tree():
 
 if __name__ == '__main__':
     tree = Tree()
-    tree.print_tree()
 
     tree.insert(10)
     tree.insert(3)
     tree.insert(14)
-    tree.insert(5)
-
-    tree.print_tree()
+    tree.insert(17)
+    tree.insert(24)
+    tree.insert(42)
+    #tree.print_tree_dot()
