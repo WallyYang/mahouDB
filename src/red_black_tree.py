@@ -48,6 +48,16 @@ class Node():
             print(""" NoneR%s [label="None"];""" % (node_name))
             print(""" %s -> NoneR%s;""" % (node_name, node_name))
 
+    def contains(self, data):
+        if self._data == data:
+            return True
+        else:
+            if data < self._data:
+                return self._left.contains(data)
+            else:
+                return self._right.contains(data)
+
+
 class Tree():
     """A Red Black Tree for indexing
 
@@ -75,6 +85,12 @@ class Tree():
         if self.root != None:
             self.root.print_node_dot()
         print("}")
+
+    def contains(self, data):
+        if self.root == None:
+            return False
+        else:
+            return self.root.contains(self, data)
 
     def left_rotate(self,node):
         new_node=self._right
