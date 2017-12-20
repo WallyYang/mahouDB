@@ -33,7 +33,7 @@ class Node():
     def print_node_dot(self):
         node_name = "node%s" % id(self)
         color = "black" if self._is_black else "red"
-        print(""" %s [ label="%s", fillcolor="%s" ];""" % (node_name, self._data, color))
+        print(""" %s [ label="%s", color="%s" ];""" % (node_name, self._data, color))
 
         if self._left != None:
             self._left.print_node_dot()
@@ -47,6 +47,21 @@ class Node():
         else:
             print(""" NoneR%s [label="None"];""" % (node_name))
             print(""" %s -> NoneR%s;""" % (node_name, node_name))
+
+    def contains(self, data):
+        if self._data == data:
+            return True
+        elif data < self._data:
+            if self._left == None:
+                return False
+            else:
+                return self._left.contains(data)
+        else:
+            if self._right == None:
+                return False
+            else:
+                return self._right.contains(data)
+
 
 class Tree():
     """A Red Black Tree for indexing
@@ -71,10 +86,16 @@ class Tree():
 
     def print_tree_dot(self):
         print("digraph {")
-        print(""" node [ style="filled", fontcolor="white" ]""")
+        print(""" node [ style="filled", color="grey", fontcolor="white" ]""")
         if self.root != None:
             self.root.print_node_dot()
         print("}")
+
+    def contains(self, data):
+        if self.root == None:
+            return False
+        else:
+            return self.root.contains(data)
 
     def left_rotate(self,node):
         new_node=node._right
