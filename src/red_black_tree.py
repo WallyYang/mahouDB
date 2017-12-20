@@ -135,9 +135,7 @@ class Tree():
         node._parent = new_node
 
     def insert(self, data):
-        '''
-        reference: CLRS
-        '''
+        # reference: CLRS
         if self.root == None:
             self.root = Node(data, True, None)
         else:
@@ -191,13 +189,11 @@ class Tree():
                     grandparent._is_black = False
                     # Perform left rotation on grandparent
                     self.left_rotate(grandparent)
-                '''
-                After running Case 2 or 3(right-hand version of 2),
-                parent(x._parent) will be black, the original grandparent and x will be red,
-                the original sibling_of_parent is black since Case 1 is not the case,
-                and the original sibling of x(now a child of original grandparent) is black if its parent is red,
-                which satisfies the rules.
-                '''
+                # After running Case 2 or 3(right-hand version of 2),
+                # parent(x._parent) will be black, the original grandparent and x will be red,
+                # the original sibling_of_parent is black since Case 1 is not the case,
+                # and the original sibling of x(now a child of original grandparent) is black if its parent is red,
+                # which satisfies the rules.
             self.root._is_black = True
 
     def rb_transplant(self, n1, n2):
