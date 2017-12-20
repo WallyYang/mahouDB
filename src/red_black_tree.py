@@ -76,6 +76,18 @@ class Node():
             else:
                 return self._right.contains(data)
 
+    def min(self):
+        check = True
+        copy = self
+        while check:
+            if copy._left == None:
+                check = False
+            else:
+                self = copy._left
+                self._parent = copy
+                copy = self
+                copy = self._parent
+        return self
 
 class Tree():
     """A Red Black Tree for indexing
@@ -227,19 +239,6 @@ class Tree():
                 x = x._right
         return target
 
-    def min(self):
-        check = True
-        copy = self
-        copy._parent = self._parent
-        while check:
-            if copy._left == None:
-                check = False
-            else:
-                self = copy._left
-                self._parent = copy
-                copy = self
-                copy = self._parent
-
     def delete(self, data):
         del_node = self.find_node(data)
         y = del_node
@@ -254,10 +253,14 @@ class Tree():
             y = del_node._right.min()
             y_original_color = y._is_black
             x = y._right
-            if y._parent == del_node:
+            if y._parent == del_node and x != None:
                 x._parent = y
             else:
-                self.rb_transplant(y, y._right)
+                if y._right == None:
+                    y._right = Node(None,True)
+                    self.rb_transplant(y,y._right)
+                else:
+                    self.rb_transplant(y, y._right)
                 y._right = del_node._right
                 y._right._parent = y
             self.rb_transplant(del_node, y)
