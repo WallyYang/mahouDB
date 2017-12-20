@@ -1,3 +1,11 @@
+def compare(v1: tuple, v2: tuple) -> int:
+    if (v1[0] < v2[0]):
+        return -1
+    elif (v1[0] > v2[0]):
+        return 1
+    else:
+        return 0 if v1[1] == v2[1] else -1 if v1[1] < v2[1] else 1
+
 class Node():
     def __init__(self,
                  data: tuple,
@@ -326,5 +334,4 @@ if __name__ == '__main__':
     tree.insert(25)
     tree.insert(43)
     tree.insert(45)
-    tree.delete(43)
     tree.print_tree_dot()
