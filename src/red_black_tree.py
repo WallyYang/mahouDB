@@ -15,6 +15,20 @@ class Node():
         self._right = right
         self._is_black = is_black
 
+    def print_node(self):
+        print("{" + str(self._data))
+        print(" left: ", end="")
+        if self._left != None:
+            self._left.print_node()
+        else:
+            print("None")
+        print(" right:", end="")
+        if self._right != None:
+            self._right.print_node()
+        else:
+            print("None")
+        print("}")
+
 class Tree():
     """A Red Black Tree for indexing
 
@@ -28,6 +42,14 @@ class Tree():
     def __init__(self):
         """Constructor for a Red-Black Tree, with an empty tree"""
         self.root = None
+
+    def print_tree(self):
+        """print the entire red black tree"""
+        if self.root == None:
+            print("None")
+        else:
+            self.root.print_node()
+        
 
     def left_rotate(self,node):
         new_node=self._right
@@ -130,3 +152,13 @@ class Tree():
 
     def find(self, data):
         pass
+
+
+if __name__ == '__main__':
+    tree = Tree()
+    tree.print_tree()
+
+    tree.insert(10)
+    tree.insert(3)
+    tree.insert(14)
+    tree.print_tree()
