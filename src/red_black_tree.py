@@ -17,6 +17,7 @@ class Node():
 
     def print_node(self):
         print("{" + str(self._data))
+        print(" color: " + str(self._is_black))
         print(" left: ", end="")
         if self._left != None:
             self._left.print_node()
@@ -161,4 +162,6 @@ if __name__ == '__main__':
     tree.insert(10)
     tree.insert(3)
     tree.insert(14)
+    tree.insert(5)
+
     tree.print_tree()
