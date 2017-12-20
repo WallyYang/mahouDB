@@ -46,20 +46,19 @@ class Node():
     def print_node_dot(self):
         node_name = "node%s" % id(self)
         color = "black" if self._is_black else "red"
-        print(""" %s [ label="%s", color="%s" ];""" % (node_name, self._data,
-                                                       color))
+        print(""" %s [ label="%s", fillcolor="%s" ];""" % (node_name, self._data, color))
 
         if self._left != None:
             self._left.print_node_dot()
             print(""" %s -> node%s;""" % (node_name, id(self._left)))
         else:
-            print(""" NoneL%s [label="None"];""" % (node_name))
+            print(""" NoneL%s [ shape="box", label="NIL", fontsize="10", fillcolor="black" ];""" % (node_name))
             print(""" %s -> NoneL%s;""" % (node_name, node_name))
         if self._right != None:
             self._right.print_node_dot()
             print(""" %s -> node%s;""" % (node_name, id(self._right)))
         else:
-            print(""" NoneR%s [label="None"];""" % (node_name))
+            print(""" NoneR%s [ shape="box", label="NIL", fontsize="10", fillcolor="black" ];""" % (node_name))
             print(""" %s -> NoneR%s;""" % (node_name, node_name))
 
     def contains(self, data):
@@ -111,7 +110,7 @@ class Tree():
 
     def print_tree_dot(self):
         print("digraph {")
-        print(""" node [ style="filled", color="grey", fontcolor="white" ]""")
+        print(""" node [ style="filled", fontcolor="white" ]""")
         if self.root != None:
             self.root.print_node_dot()
         print("}")
