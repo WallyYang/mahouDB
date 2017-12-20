@@ -28,21 +28,6 @@ class Node():
         self._right = right
         self._is_black = is_black
 
-    def print_node(self):
-        print("{" + str(self._data))
-        print(" color: " + str(self._is_black))
-        print(" left: ", end="")
-        if self._left != None:
-            self._left.print_node()
-        else:
-            print("None")
-        print(" right:", end="")
-        if self._right != None:
-            self._right.print_node()
-        else:
-            print("None")
-        print("}")
-
     def print_node_dot(self):
         node_name = "node%s" % id(self)
         color = "black" if self._is_black else "red"
@@ -100,13 +85,6 @@ class Tree():
     def __init__(self):
         """Constructor for a Red-Black Tree, with an empty tree"""
         self.root = None
-
-    def print_tree(self):
-        """print the entire red black tree"""
-        if self.root == None:
-            print("None")
-        else:
-            self.root.print_node()
 
     def print_tree_dot(self):
         print("digraph {")
