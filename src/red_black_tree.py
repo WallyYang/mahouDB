@@ -90,7 +90,7 @@ class Tree():
         if self.root == None:
             return False
         else:
-            return self.root.contains(self, data)
+            return self.root.contains(data)
 
     def left_rotate(self,node):
         new_node=self._right
@@ -312,3 +312,6 @@ if __name__ == '__main__':
     tree.insert(3)
     tree.insert(14)
     tree.print_tree_dot()
+
+    print(tree.contains(10))
+    print(tree.contains(15))
