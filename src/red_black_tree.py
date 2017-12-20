@@ -77,32 +77,34 @@ class Tree():
         print("}")
 
     def left_rotate(self,node):
-        new_node=self._right
+        new_node=node._right
         if node==self.root:
             self.root = new_node
         else:
-            if node==node.parent.left:
+            if node==node._parent._left:
                 node._parent._left = new_node
             else:
                 node._parent._right = new_node
         new_node._parent=node._parent
         node._right=new_node._left
-        new_node._left._parent=node
+        if new_node._left!=None:
+            new_node._left._parent=node
         new_node._left=node
         node._parent=new_node
 
     def right_rotate(self,node):
-        new_node=self._left
+        new_node=node._left
         if node==self.root:
             self.root = new_node
         else:
-            if node==node.parent.left:
+            if node==node._parent._left:
                 node._parent._left = new_node
             else:
                 node._parent._right = new_node
         new_node._parent=node._parent
         node._left=new_node._right
-        new_node._right.parent=node
+        if new_node._right!=None:
+            new_node._right._parent=node
         new_node._right=node
         node._parent=new_node
 
@@ -298,4 +300,4 @@ if __name__ == '__main__':
     tree.insert(17)
     tree.insert(24)
     tree.insert(42)
-    #tree.print_tree_dot()
+    tree.print_tree_dot()
