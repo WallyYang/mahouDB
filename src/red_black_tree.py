@@ -63,15 +63,37 @@ class Node():
     def min(self):
         check = True
         copy = self
+        copyP = self._parent
         while check:
-            if copy._left == None:
-                check = False
+            if copy._left != None:
+                copyP = copy
+                copy = copy._left
             else:
-                self = copy._left
-                self._parent = copy
-                copy = self
-                copy = self._parent
-        return self
+                check = False
+            copy._parent = copyP
+        return copy
+
+    def change_color(self):
+        left_check = True
+        right_check = True
+        left = self._left
+        leftP = self
+        right = self._right
+        rightP = self
+        if left_check:
+            if left._is_black:
+                left._is_black = False
+                left_check = False
+            else:
+                left._parent = leftP
+                change_color(left)
+        if right_check:
+            if right._is_black:
+                right._is_black = False
+                right_check = False
+            else:
+                right._parent = rightP
+                change_color(right)
 
 class Tree():
     """A Red Black Tree for indexing
@@ -219,33 +241,130 @@ class Tree():
     def delete(self, data):
         del_node = self.find_node(data)
         y = del_node
+        y._parent = del_node._parent
         y_original_color = y._is_black
-        if del_node._left == None:
-            x = del_node._right
-            self.rb_transplant(del_node, del_node._right)
-        elif del_node._right == None:
-            x = del_node._left
-            self.rb_transplant(del_node, del_node._left)
+        if del_node._left == None and del_node._right == None:
+            if del_node._parent == None and del_node._is_black:
+                self.root = None
+            elif del_node._is_black and not del_node._parent._is_black:
+                del_node._parent._is_black = True
+                if del_node == del_node._parent._right:
+                    del_node._parent._left._is_black = False
+                    del_node._parent._right = None
+                else:
+                    del_node._parent._right._is_black = False
+                    del_node._parent._left = None
+            elif not del_node._is_black:
+                if del_node == del_node._parent._right:
+                    del_node._parent._right = None
+                else:
+                    del_node._parent._left = None
+            elif del_node._is_black and del_node._parent._is_black:
+                if del_node == del_node._parent._right:
+                    if del_node._parent._left != None and not del_node._parent._left._is_black:
+                        del_node._parent._left._is_black = True
+                        del_node._parent._left._right._is_black = False
+                        temp = del_node._parent
+                        temp._parent._parent = del_node._parent._parent
+                        del_node._parent._right = None
+                        self.right_rotate(temp)
+                    elif del_node._parent._left != None and del_node._parent._left._is_black:
+                        temp1 = del_node._parent
+                        temp1._parent = del_node._parent._parent
+                        del_node._parent._right = None
+                        copyTemp = temp1
+                        coypTemp = temp1._parent
+                        if copyTemp != None and copyTemp._parent != None:
+                            if not copyTemp._parent._right._is_black:
+                                copyTemp._parent._right.change_color()
+                            copyTemp._parent._right._is_black = False
+                            temp2 = copyTemp._parent
+                            temp2 = copyTemp._parent._parent
+                            copyTemp = temp2
+                            if temp2 != None:
+                                copyTemp._parent = temp2._parent
+                        self.right_rotate(temp1)
+                        temp1._is_black = False
+                else:
+                    if del_node._parent._right != None and not del_node._parent._right._is_black:
+                        del_node._parent._right._is_black = True
+                        del_node._parent._right._left._is_black = False
+                        temp = del_node._parent
+                        temp._parent._parent = del_node._parent._parent
+                        del_node._parent._left = None
+                        self.left_rotate(temp)
+                    elif del_node._parent._right != None and del_node._parent._right._is_black:
+                        temp1 = del_node._parent
+                        temp1._parent = del_node._parent._parent
+                        del_node._parent._left = None
+                        copyTemp = temp1
+                        coypTemp = temp1._parent
+                        if copyTemp != None and copyTemp._parent != None:
+                            if not copyTemp._parent._left._is_black:
+                                copyTemp._parent._left.change_color()
+                            copyTemp._parent._left._is_black = False
+                            temp2 = copyTemp._parent
+                            temp2 = copyTemp._parent._parent
+                            copyTemp = temp2
+                            if temp2 != None:
+                                copyTemp._parent = temp2._parent
+                        self.left_rotate(temp1)
+                        temp1._is_black = False
         else:
-            y = del_node._right.min()
-            y_original_color = y._is_black
-            x = y._right
-            if y._parent == del_node and x != None:
-                x._parent = y
+            if del_node._left == None:
+                x = del_node._right
+                if del_node != None and del_node._right != None:
+                   self.rb_transplant(del_node, del_node._right)
+            elif del_node._right == None:
+               x = del_node._left
+               if del_node != None and del_node._left != None:
+                   self.rb_transplant(del_node, del_node._left)
             else:
-                if y._right != None:
-                   self.rb_transplant(y, y._right)
-                   y._right = del_node._right
-                   y._right._parent = y
-            self.rb_transplant(del_node, y)
-            y._left = del_node._left
-            y._left._parent = y
-            y._is_black = del_node._is_black
-        if y_original_color == del_node._is_black:
-            self.rb_delete_fixup(x)
+                y = del_node._right.min()
+                j = del_node._right.min()._parent
+                y_original_color = y._is_black
+                x = y._right
+                if y._parent == del_node and x != None:
+                    x._parent = y
+                elif y._parent == del_node and del_node._is_black and del_node._parent._is_black:
+                    if del_node == del_node._parent._right:
+                        if del_node._parent._left != None and del_node._parent._left._is_black:
+                            del_node._parent._left._is_black = False
+                            del_node._right._is_black = False
+                    else:
+                        if del_node._parent._right != None and del_node._parent._right._is_black:
+                            del_node._parent._right._is_black = False
+                            del_node._left._is_black = False
+                else:
+                   if y._right != None:
+                       self.rb_transplant(y, y._right)
+                       y._right = del_node._right
+                       y._right._parent = y
+                   else:
+                       temp = y
+                       temp._parent = y._parent
+                       if y == y._parent._left:
+                           temp._parent._left = None
+                       else:
+                           temp._parent._right = None
+                       y._right = del_node._right
+                       if y._right != None:
+                          y._right._parent = y
+                self.rb_transplant(del_node,y)
+                y._left = del_node._left
+                y._left._parent = y
+                y._is_black = del_node._is_black
+                if y_original_color and x == None:
+                    self.left_rotate(j)
+                    self.left_rotate(j)
+                    j._is_black = False
+                    temp._left._is_black = False
+                    temp._is_black = True
+            if y_original_color and x != None:
+                self.rb_delete_fixup(x)
 
     def rb_delete_fixup(self, x):
-        while x != self.root and x._is_black == True:
+        while x != self.root and x._is_black and x._left != None and x._right != None:
             if x == x._parent._left:
                 w = x._parent._right
                 # case 1
@@ -259,13 +378,13 @@ class Tree():
                     w._is_black = False
                     x = x._parent
                 # case 3
-                elif w._right._is_black:
-                    w._left._is_black = True
-                    w._is_black = False
-                    self.right_rotate(w)
-                    w = x._parent._right
-                # case 4
                 else:
+                    if w._right._is_black:
+                        w._left._is_black = True
+                        w._is_black = False
+                        self.right_rotate(w)
+                        w = x._parent._right
+                # case 4
                     w._is_black = x._parent._is_black
                     x._parent._is_black = True
                     w._right._is_black = True
@@ -281,18 +400,19 @@ class Tree():
                 if w._right._is_black and w._left._is_black:
                     w._is_black = False
                     x = x._parent
-                elif w._left._is_black:
-                    w._right._is_black = True
-                    w._is_black = False
-                    self.left_rotate(w)
-                    w = x._parent._left
                 else:
+                    if w._left._is_black:
+                         w._right._is_black = True
+                         w._is_black = False
+                         self.left_rotate(w)
+                         w = x._parent._left
                     w._is_black = x._parent._is_black
                     x._parent._is_black = True
                     w._left._is_black = True
                     self.right_rotate(x._parent)
                     x = self.root
-        x._is_black = True
+        if x != None:
+           x._is_black = True
 
     def find(self, data):
         pass
@@ -311,4 +431,24 @@ if __name__ == '__main__':
     tree.insert(25)
     tree.insert(43)
     tree.insert(45)
+    tree.insert(46)
+    tree.insert(44)
+    tree.insert(26)
+    tree.insert(222)
+    tree.insert(90)
+    tree.insert(55)
+    #tree.delete(24)
+    #tree.delete(44)
+    #tree.delete(45)
+    #tree.delete(43)
+    #tree.delete(10)
+    #tree.delete(14)
+    #tree.delete(42)
+    #tree.delete(46)
+    #tree.delete(17)
+    #tree.delete(26)
+    #tree.delete(3)
+    #tree.delete(0)
+    #tree.delete(25)
+    tree.delete(90)
     tree.print_tree_dot()
