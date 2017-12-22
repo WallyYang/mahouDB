@@ -1,4 +1,12 @@
-class Table(object):
+class Table():
+    """
+    the database table
+
+    self._table: the list containing all the values, each row is a dataset
+    self._cols: the list containing all column names, i.e. ("id", "name")
+    """
+
+
     def __init__(self, cols: list):
         self._table = []
         self._cols = cols
