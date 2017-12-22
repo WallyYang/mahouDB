@@ -6,12 +6,21 @@ class Table():
     self._cols: the list containing all column names, i.e. ("id", "name")
     """
 
-
     def __init__(self, cols: list):
+        """initialize an empty table with needed columns"""
         self._table = []
         self._cols = cols
 
     def add(self, row):
+        """
+        add a new row into the table
+
+        row as list:
+        add each data into the row according to the column order
+
+        row as dict:
+        add each pair into the table and column-data 
+        """
         _row = [None] * len(self._cols)
         if isinstance(row, list):
             for i in range(min(len(self._cols), len(row))):
@@ -25,6 +34,11 @@ class Table():
         self._table.append(tuple(_row))
 
     def find(self, col: str, value: str) -> list:
+        """
+        find all rows given the column string and value string
+
+        return all corresponding rows appended as a list
+        """
         i = self._cols.index(col)
         # TODO use index
         ret = []
