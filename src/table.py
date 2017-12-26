@@ -1,15 +1,21 @@
+from indexing import Index
+
 class Table():
     """
     the database table
 
-    self._table: the list containing all the values, each row is a dataset
-    self._cols: the list containing all column names, i.e. ("id", "name")
+    self._data: Index<primary_key, row>
+    self._cols: tuple(str... ) containing column names i.e. ("id", "name")
+    self._indices: Index<col_name, Index<col_vallue, [primary_key]>>
     """
 
-    def __init__(self, cols: list):
+    def __init__(self, cols: tuple):
         """initialize an empty table with needed columns"""
-        self._table = []
+        self._data = Index()
         self._cols = cols
+        self._indices = Index()
+        for col_name in cols:
+            self._indices.insert((col_name, Index()))
 
     def add(self, row):
         """
@@ -21,17 +27,7 @@ class Table():
         row as dict:
         add each pair into the table and column-data 
         """
-        _row = [None] * len(self._cols)
-        if isinstance(row, list):
-            for i in range(min(len(self._cols), len(row))):
-                _row[i] = row[i]
-        elif isinstance(row, dict):
-            for i, k in enumerate(self._cols):
-                if k in row:
-                    _row[i] = row[k]
-        else:
-            raise "row should be instance of list or map"
-        self._table.append(tuple(_row))
+        pass
 
     def find(self, col: str, value: str) -> list:
         """
@@ -39,13 +35,7 @@ class Table():
 
         return all corresponding rows appended as a list
         """
-        i = self._cols.index(col)
-        # TODO use index
-        ret = []
-        for r in self._table:
-            if r[i] == value:
-                ret.append(r)
-        return ret
+        pass
 
 if __name__ == "__main__":
     table = Table(["id", "name"])
