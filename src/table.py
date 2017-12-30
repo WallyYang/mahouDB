@@ -16,7 +16,7 @@ class Table():
         self._data = Index()
         self._cols = cols
         self._indices = Index()
-        self.curr_primary_key = 1
+        self._curr_primary_key = 1
         for col_name in cols:
             self._indices.insert((col_name, Index()))
 
