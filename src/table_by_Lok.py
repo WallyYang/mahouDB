@@ -32,18 +32,34 @@ class Table():
         add a new row into the table
         row as list:
         add each data into the row according to the column order
-        """
-        if not isinstance(row, tuple):
-            raise TypeError("row has to be a tuple of values")
         
-        # Format the row. Delete extra columns.
-        rowList = []
-        for i in range(len(self.col_names)):
-            if i < len(row):
-                rowList.append(row[i])
-            else:
-                rowList.append(None)
-        row = tuple(rowList)
+        row as dict:
+        add each
+        """
+        if not isinstance(row, (tuple, dict)):
+            raise TypeError("row has to be a tuple of a dict of values")
+        
+        if isinstance(row, dict):
+            for key in row.keys():
+                if not key in self.col_names:
+                    raise Exception("the column name is not legal")
+            
+            realRow = []
+            for col_name in self.col_names:
+                if col_name in row.keys():
+                    realRow.append(row.get(col_name))
+                else:
+                    realRow.append(None)
+            row = realRow
+        else:
+            # Format the row. Delete extra columns.
+            rowList = []
+            for i in range(len(self.col_names)):
+                if i < len(row):
+                    rowList.append(row[i])
+                else:
+                    rowList.append(None)
+            row = tuple(rowList)
             
         self.content.insert((self.current_pk, row))
         for i in range(len(row)):
