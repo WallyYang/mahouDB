@@ -99,43 +99,37 @@ class Table():
             rows.extend(self.content.find(pk))
         return rows # return a list of tuples(rows)
         
-    def lower_bound(self, col_name) -> list:
+    def lower_bound(self, col_name, value) -> list:
         if not col_name in self.col_names:
             raise Exception("the column name is not legal")
+        if value == None:
+            raise TypeError("the value cannot be None")
             
         index_of_column = self.col_names.index(col_name)
-        min = None
-        lower_bound = []
+        return_range = []
         for pk in range(self.current_pk):
             row = self.content.find(pk)[0]
-            if len(row) > index_of_column: # ensure the index is less than the length of row
-                value = row[index_of_column]
-                if min == None or min > value:
-                    min = value
-                    lower_bound = []
-                    lower_bound.append(row)
-                elif min == value:
-                    lower_bound.append(row)
-        return lower_bound # return a list of tuples(rows)
+            if row[index_of_column] != None: # ensure the index is less than the length of row
+                this_value = row[index_of_column]
+                if this_value >= value:
+                    return_range.append(row)
+        return return_range # return a list of tuples(rows)
         
-    def upper_bound(self, col_name) -> list:
+    def upper_bound(self, col_name, value) -> list:
         if not col_name in self.col_names:
             raise Exception("the column name is not legal")
+        if value == None:
+            raise TypeError("the value cannot be None")
             
         index_of_column = self.col_names.index(col_name)
-        max = None
-        upper_bound = []
+        return_range = []
         for pk in range(self.current_pk):
             row = self.content.find(pk)[0]
-            if len(row) > index_of_column: # ensure the index is less than the length of row
-                value = row[index_of_column]
-                if max == None or max < value:
-                    max = value
-                    upper_bound = []
-                    upper_bound.append(row)
-                elif max == value:
-                    upper_bound.append(row)
-        return upper_bound # return a list of tuples(rows)
+            if row[index_of_column] != None: # ensure the index is less than the length of row
+                this_value = row[index_of_column]
+                if this_value <= value:
+                    return_range.append(row)
+        return return_range # return a list of tuples(rows)
     
 if __name__ == '__main__':
     # tests start here.
@@ -145,10 +139,10 @@ if __name__ == '__main__':
     table.add(("6", "True"))
     table.add(("6", "False"))
     
-    print(table.lower_bound("food"))
-    print(table.upper_bound("food"))
-    print(table.lower_bound("boolean"))
-    print(table.upper_bound("boolean"))
+    print(table.lower_bound("food", "Beef"))
+    print(table.upper_bound("food", "Beef"))
+    print(table.lower_bound("boolean", "False"))
+    print(table.upper_bound("boolean", "False"))
     print()
     
     table.remove("boolean", "True")
