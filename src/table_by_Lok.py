@@ -5,6 +5,13 @@
 from indexing import Index
 
 class Table():
+    """
+    the database table
+    self.content: Index<primary_key, row>
+    self.col_names: tuple(str... ) containing column names i.e. ("id", "name")
+    self.col_name_indices: Index<col_name, Index<col_vallue, [primary_key]>>
+    self.current_pk: current primary key, use and increment everytime
+    """
     
     # For convenience, only strings are allowed for column names and data
     
