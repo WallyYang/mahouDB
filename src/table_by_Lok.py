@@ -16,6 +16,7 @@ class Table():
     # For convenience, only strings are allowed for column names and data
     
     def __init__(self, col_names: tuple):
+        """initialize an empty table with needed columns"""
         if not isinstance(col_names, tuple):
             raise TypeError("col_names has to be a list of column names")
             
@@ -27,6 +28,11 @@ class Table():
             self.col_name_indices.insert((col_name, Index()))
         
     def add(self, row: tuple):
+        """
+        add a new row into the table
+        row as list:
+        add each data into the row according to the column order
+        """
         if not isinstance(row, tuple):
             raise TypeError("row has to be a tuple of values")
         
@@ -63,6 +69,10 @@ class Table():
             self.content.remove(pk)
             
     def find(self, col_name, value) -> list:
+        """
+        find all rows given the column string and value string
+        return all corresponding rows appended as a list
+        """
         if not col_name in self.col_names:
             raise Exception("the column name is not legal")
             
