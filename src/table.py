@@ -33,12 +33,31 @@ class Table():
         """
         pass
 
+    def remove(self, col_name, value):
+        pass
+
+
     def find(self, col: str, value: str) -> list:
         """
         find all rows given the column string and value string
 
         return all corresponding rows appended as a list
         """
+        pass
+
+    def lower_bound(self, col_name, value):
+        pass
+
+    def upper_bound(self, col_name, value):
+        pass
+
+    def gen_index(self, col_name):
+        pass
+
+    def read_file(self, filename):
+        pass
+
+    def write_file(self, filename):
         pass
 
 if __name__ == "__main__":
