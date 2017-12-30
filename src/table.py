@@ -26,10 +26,41 @@ class Table():
         row as list:
         add each data into the row according to the column order
 
+        row as tuple:
+        add each data into the row according to the column order
+
         row as dict:
         add each pair into the table and column-data 
         """
-        pass
+        if len(row) <= len(self._cols): # row with the right number of values
+            if isinstance(row, tuple):  # row as tuple
+                self._data.insert((self._curr_primary_key, row))
+
+            elif isinstance(row, list): # row as list
+                self._data.insert((self._curr_primary_key, tuple(row)))
+
+            elif isinstance(row, dict): # row as dictionary
+
+                for k, v in row.items(): # test for  invalid column name
+                    if k not in self._cols:
+                        raise ValueError("Invalid column name")
+
+                temp = list() # list to be inserted
+                for col_name in self._cols: # insert according to column order
+                    if col_name in row.keys():
+                        temp.append(row[col_name])
+                    else:
+                        temp.append(None)
+
+                self._data.insert((self._curr_primary_key, tuple(temp)))
+
+            else:
+                raise TypeError("Invalid row type, must be tuple, list, or dict")
+
+        else:
+            raise ValueError("Invalid Row, number excceeds")
+
+        self._curr_primary_key += 1
 
     def remove(self, col_name, value):
         pass
@@ -65,15 +96,24 @@ class Table():
 
 
     def _print(self):
-        for row in self._data._index:
-            print(row)
+        # print table headings
+        print("pk\t", end="")
+        for col_names in self._cols:
+            print(col_names + "\t", end = "")
+        print()
+
+        for pk in self._data._index:
+            print(str(pk) + "\t", end = "")
+            for value in self._data._index[pk][0]:
+                print(str(value) + "\t", end = "")
+            print()
 
 
 if __name__ == "__main__":
     table = Table(["id", "name"])
+    table.add(("2", "yang"))
     table.add(["1", "liu"])
     table.add({"id": "2", "name": "wang"})
     table.add({"id": "2", "name": "wang1"})
-    print(table.find("id", "2"))
 
     table._print()
