@@ -7,8 +7,7 @@ class Table():
     self._data: Index<primary_key, row>
     self._cols: tuple(str... ) containing column names i.e. ("id", "name")
     self._indices: Index<col_name, Index<col_vallue, [primary_key]>>
-
-    Table.curr_primary_key: current primary key, use and increment everytime
+    self._curr_primary_key: current primary key, use and increment everytime
     """
 
     def __init__(self, cols: tuple):
