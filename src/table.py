@@ -11,13 +11,12 @@ class Table():
     Table.curr_primary_key: current primary key, use and increment everytime
     """
 
-    curr_primary_key = 1
-
     def __init__(self, cols: tuple):
         """initialize an empty table with needed columns"""
         self._data = Index()
         self._cols = cols
         self._indices = Index()
+        self.curr_primary_key = 1
         for col_name in cols:
             self._indices.insert((col_name, Index()))
 
