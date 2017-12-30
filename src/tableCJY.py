@@ -26,21 +26,29 @@ class Table():
         add each pair into the table and column-data
         """
         _row = [None] * len(self._cols)
-        if isinstance(row, list):
-            for i in range(min(len(self._cols), len(row))):
-                _row[i] = row[i]
-        elif isinstance(row, dict):
-            for i, k in enumerate(self._cols):
-                if k in row:
-                    _row[i] = row[k]
+        if len(row) <= len(_row):
+            if isinstance(row, list) or isinstance(row, tuple) or isinstance(row, dict):
+                if isinstance(row, list) or isinstance(row, tuple):
+                    for i in range(min(len(self._cols), len(row))):
+                        _row[i] = row[i]
+                elif isinstance(row, dict):
+                    for k_value in row:
+                        if not k_value in self._cols:
+                            raise "Error, the row is not in a correct format."
+                            return
+                    for i, k in enumerate(self._cols):
+                        if k in row:
+                            _row[i] = row[k]
+                self._data.insert((Table.pk_value, tuple(_row)))
+                m = 0
+                for col_name in self._cols:
+                    self._indices._index[col_name][0].insert((_row[m], Table.pk_value))
+                    m += 1
+                Table.pk_value += 1
+            else:
+                raise "Error! The row should be an instance of dict, list, or tuple."
         else:
-            raise "row should be instance of list or map"
-        self._data.insert((Table.pk_value,tuple(_row)))
-        m = 0
-        for col_name in self._cols:
-            self._indices._index[col_name][0].insert((_row[m],Table.pk_value))
-            m += 1
-        Table.pk_value += 1
+            raise "Error! The length should less or equal to the cols."
 
     def value_find(self, col: str, value: str) -> list:
         """
@@ -51,7 +59,7 @@ class Table():
         ret = []
         for pk in result:
             r = self._data.find(pk)
-            ret.append(r)
+            ret += r
         return ret
 
     def value_remove(self, col:str, value: str):
@@ -65,14 +73,22 @@ class Table():
             self._data.remove(pk)
             for c in self._indices._index:
                 for v in self._indices._index[c][0]._index:
+                    first_time = True
                     for l in range(0,len(self._indices._index[c][0]._index[v])):
-                        if self._indices._index[c][0]._index[v][l] == pk:
-                            change[str(change_time)] = [c,v,str(l)]
-                            change_time += 1
-        for changing in change:
-            del self._indices._index[(change[changing][0])][0]._index[(change[changing][1])][int(change[changing][2])]
-            if len(self._indices._index[(change[changing][0])][0]._index[(change[changing][1])]) == 0:
-                self._indices._index[(change[changing][0])][0].remove(change[changing][1])
+                        if self._indices._index[c][0]._index[v][l] == pk and first_time:
+                            change[str(change_time)] = [c,v,l]
+                            first_time = False
+                        elif self._indices._index[c][0]._index[v][l] == pk:
+                            change[str(change_time)] += [l]
+                    change_time += 1
+        for k,v in change.items():
+            li = []
+            for i in range(2,len(v)):
+                li += [v[i]]
+            for index in range(0,len(li)):
+                del self._indices._index[v[0]][0]._index[v[1]][li[len(li) - 1 - index]]
+            if len(self._indices._index[v[0]][0]._index[v[1]]) == 0:
+                self._indices._index[v[0]][0].remove(v[1])
 
 if __name__ == "__main__":
     table = Table(["id", "name"])
@@ -87,5 +103,7 @@ if __name__ == "__main__":
     table.add(["9","chang"])
     print(table.value_find("id", "4"))
     print(table.value_find("id","9"))
+    print(table.value_find("id", "2"))
     list = table._indices._index["name"][0]._index["wang"]
     print(list)
+
