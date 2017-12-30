@@ -66,9 +66,16 @@ class Table():
         pass
 
 
+    def _print(self):
+        for row in self._data._index:
+            print(row)
+
+
 if __name__ == "__main__":
     table = Table(["id", "name"])
     table.add(["1", "liu"])
     table.add({"id": "2", "name": "wang"})
     table.add({"id": "2", "name": "wang1"})
     print(table.find("id", "2"))
+
+    table._print()
