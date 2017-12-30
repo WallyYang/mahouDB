@@ -45,7 +45,7 @@ class Table():
             
         col_index = self.col_name_indices.find(col_name)
         pks = col_index[0].find(value)
-        pks = tuple(pks)
+        pks = tuple(pks) # avoid alias
         for pk in pks:
             row = self.content.find(pk)[0]
             for i in range(len(row)):
