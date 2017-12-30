@@ -22,10 +22,8 @@ class Table():
     def add(self, row: tuple):
         if not isinstance(row, tuple):
             raise TypeError("row has to be a tuple of values")
-        if len(row) > len(self.col_names):
-            print("Warning: The row is oversize and only the elements on the front are added.")
         
-        # Format the row
+        # Format the row. Delete extra columns.
         rowList = []
         for i in range(len(self.col_names)):
             if i < len(row):
