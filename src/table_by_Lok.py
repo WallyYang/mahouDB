@@ -26,7 +26,7 @@ class Table():
         if len(row) > len(self.col_names):
             print("Warning: The row is oversize and only the elements on the front are added.")
         
-        rowList = None
+        rowList = []
         for i in range(len(row)):
             if i < len(row):
                 rowList.append(row[i])
