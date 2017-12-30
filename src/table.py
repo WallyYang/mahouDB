@@ -40,7 +40,6 @@ class Table():
                 self._data.insert((self._curr_primary_key, tuple(row)))
 
             elif isinstance(row, dict): # row as dictionary
-
                 for k, v in row.items(): # test for  invalid column name
                     if k not in self._cols:
                         raise ValueError("Invalid column name")
@@ -61,6 +60,7 @@ class Table():
             raise ValueError("Invalid Row, number excceeds")
 
         self._curr_primary_key += 1
+
 
     def remove(self, col_name, value):
         pass
