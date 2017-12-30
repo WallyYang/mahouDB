@@ -18,7 +18,6 @@ class Table():
         self.col_name_indices = Index()
         for col_name in col_names:
             self.col_name_indices.insert((col_name, Index()))
-            
         
     def add(self, row: tuple):
         if not isinstance(row, tuple):
@@ -26,8 +25,9 @@ class Table():
         if len(row) > len(self.col_names):
             print("Warning: The row is oversize and only the elements on the front are added.")
         
+        # Format the row
         rowList = []
-        for i in range(len(row)):
+        for i in range(len(self.col_names)):
             if i < len(row):
                 rowList.append(row[i])
             else:
@@ -40,7 +40,6 @@ class Table():
                 col_index = self.col_name_indices.find(self.col_names[i])
                 col_index[0].insert((row[i], self.current_pk))
         self.current_pk += 1
-
         
     def remove(self, col_name, value):
         if not col_name in self.col_names:
@@ -58,7 +57,6 @@ class Table():
                     pk_list.remove(pk)
             self.content.remove(pk)
             
-    
     def find(self, col_name, value) -> list:
         if not col_name in self.col_names:
             raise Exception("the column name is not legal")
