@@ -45,9 +45,9 @@ class Table():
             
         col_index = self.col_name_indices.find(col_name)
         pks = col_index[0].find(value)
+        pks = tuple(pks)
         for pk in pks:
             row = self.content.find(pk)[0]
-            print (row)
             for i in range(len(row)):
                 if row[i] != None:
                     col_index = self.col_name_indices.find(self.col_names[i])
@@ -63,7 +63,7 @@ class Table():
         pks = col_index[0].find(value)
         rows = []
         for pk in pks:
-            rows.append(self.content.find(pk))
+            rows.extend(self.content.find(pk))
         return rows # return a list of tuples(rows)
         
     def lower_bound(self, col_name) -> list:
