@@ -8,7 +8,7 @@ class Table():
     
     # For convenience, only strings are allowed for column names and data
     
-    def __init__(self, col_names):
+    def __init__(self, col_names: tuple):
         if not isinstance(col_names, tuple):
             raise TypeError("col_names has to be a list of column names")
             
@@ -20,10 +20,20 @@ class Table():
             self.col_name_indices.insert((col_name, Index()))
             
         
-    def add(self, row):
+    def add(self, row: tuple):
         if not isinstance(row, tuple):
             raise TypeError("row has to be a tuple of values")
+        if len(row) > len(self.col_names):
+            print("Warning: The row is oversize and only the elements on the front are added.")
         
+        rowList = None
+        for i in range(len(row)):
+            if i < len(row):
+                rowList.append(row[i])
+            else:
+                rowList.append(None)
+        row = tuple(rowList)
+            
         self.content.insert((self.current_pk, row))
         for i in range(len(row)):
             if row[i] != None:
@@ -34,7 +44,7 @@ class Table():
         
     def remove(self, col_name, value):
         if not col_name in self.col_names:
-            raise TypeError("the column name is not legal")
+            raise Exception("the column name is not legal")
             
         col_index = self.col_name_indices.find(col_name)
         pks = col_index[0].find(value)
@@ -51,7 +61,7 @@ class Table():
     
     def find(self, col_name, value) -> list:
         if not col_name in self.col_names:
-            raise TypeError("the column name is not legal")
+            raise Exception("the column name is not legal")
             
         col_index = self.col_name_indices.find(col_name)
         pks = col_index[0].find(value)
@@ -62,7 +72,7 @@ class Table():
         
     def lower_bound(self, col_name) -> list:
         if not col_name in self.col_names:
-            raise TypeError("the column name is not legal")
+            raise Exception("the column name is not legal")
             
         index_of_column = self.col_names.index(col_name)
         min = None
@@ -81,7 +91,7 @@ class Table():
         
     def upper_bound(self, col_name) -> list:
         if not col_name in self.col_names:
-            raise TypeError("the column name is not legal")
+            raise Exception("the column name is not legal")
             
         index_of_column = self.col_names.index(col_name)
         max = None
