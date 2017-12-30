@@ -45,20 +45,26 @@ class Table():
         """
         pass
 
+
     def lower_bound(self, col_name, value):
         pass
+
 
     def upper_bound(self, col_name, value):
         pass
 
+
     def gen_index(self, col_name):
         pass
+
 
     def read_file(self, filename):
         pass
 
+
     def write_file(self, filename):
         pass
+
 
 if __name__ == "__main__":
     table = Table(["id", "name"])
