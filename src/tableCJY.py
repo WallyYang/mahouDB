@@ -66,7 +66,6 @@ class Table():
         """remove the row(s) which contain the target value,
         and update the each value's index"""
         del_row = self._indices._index[col][0]._index[value]
-        self._indices._index[col][0].remove(value)
         change = {}
         change_time = 0
         for pk in del_row:
@@ -92,8 +91,6 @@ class Table():
                 li += [v[i]]
             for index in range(0,len(li)):
                 del self._indices._index[v[0]][0]._index[v[1]][li[len(li) - 1 - index]]
-            if len(self._indices._index[v[0]][0]._index[v[1]]) == 0:
-                self._indices._index[v[0]][0].remove(v[1])
 
 if __name__ == "__main__":
     table = Table(["id", "name"])
@@ -104,9 +101,10 @@ if __name__ == "__main__":
     table.add({"id": "4", "name": "jimmy"})
     table.add(["2","liu"])
     table.add({"id": "88", "name": "le"})
-    table.value_remove("id","1")
+    table.value_remove("name","wang1")
     table.add({"id": "89","name": "tiger"})
     table.add(["9","chang"])
+    print(table.value_find("name", "wang1"))
     print(table.value_find("id", "4"))
     print(table.value_find("id","9"))
     print(table.value_find("id", "2"))
