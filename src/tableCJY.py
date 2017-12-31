@@ -55,6 +55,10 @@ class Table():
         find all rows given the column string and value string
         return all corresponding rows appended as a list
         """
+        if col not in self._cols:
+            return []
+        if value not in self._indices._index[col][0]._index:
+            return []
         result = self._indices._index[col][0]._index[value]
         ret = []
         for pk in result:
@@ -65,6 +69,10 @@ class Table():
     def value_remove(self, col:str, value: str):
         """remove the row(s) which contain the target value,
         and update the each value's index"""
+        if col not in self._cols:
+            return []
+        if value not in self._indices._index[col][0]._index:
+            return []
         del_row = self._indices._index[col][0]._index[value]
         change = {}
         change_time = 0
@@ -110,4 +118,6 @@ if __name__ == "__main__":
     print(table.value_find("id", "2"))
     list = table._indices._index["name"][0]._index["wang"]
     print(list)
+
+
 
