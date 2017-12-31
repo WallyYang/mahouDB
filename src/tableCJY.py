@@ -34,7 +34,7 @@ class Table():
                 elif isinstance(row, dict):
                     for k_value in row:
                         if not k_value in self._cols:
-                            raise "Error, the row is not in a correct format."
+                            raise ValueError("Error, the row is not in a correct format.")
                             return
                     for i, k in enumerate(self._cols):
                         if k in row:
@@ -46,9 +46,9 @@ class Table():
                     m += 1
                 Table.pk_value += 1
             else:
-                raise "Error! The row should be an instance of dict, list, or tuple."
+                raise TypeError("Error! The row should be an instance of dict, list, or tuple.")
         else:
-            raise "Error! The length should less or equal to the cols."
+            raise ValueError("Error! The length should less or equal to the cols.")
 
     def value_find(self, col: str, value: str) -> list:
         """
@@ -71,15 +71,20 @@ class Table():
         change_time = 0
         for pk in del_row:
             self._data.remove(pk)
-            for c in self._indices._index:
-                for v in self._indices._index[c][0]._index:
-                    first_time = True
-                    for l in range(0,len(self._indices._index[c][0]._index[v])):
+        for c in self._indices._index:
+            for v in self._indices._index[c][0]._index:
+                first_time = True
+                change[str(change_time)] = []
+                for pk in del_row:
+                    for l in range(0, len(self._indices._index[c][0]._index[v])):
                         if self._indices._index[c][0]._index[v][l] == pk and first_time:
-                            change[str(change_time)] = [c,v,l]
+                            change[str(change_time)] = [c, v, l]
                             first_time = False
+                            l = len(self._indices._index[c][0]._index[v])
                         elif self._indices._index[c][0]._index[v][l] == pk:
                             change[str(change_time)] += [l]
+                            l = len(self._indices._index[c][0]._index[v])
+                if len(change[str(change_time)]) != 0:
                     change_time += 1
         for k,v in change.items():
             li = []
@@ -97,6 +102,7 @@ if __name__ == "__main__":
     table.add({"id": "2", "name": "wang1"})
     table.add({"id": "3", "name": "wang"})
     table.add({"id": "4", "name": "jimmy"})
+    table.add(["2","liu"])
     table.add({"id": "88", "name": "le"})
     table.value_remove("id","1")
     table.add({"id": "89","name": "tiger"})
