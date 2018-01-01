@@ -108,7 +108,7 @@ class Table():
             
         index_of_column = self.col_names.index(col_name)
         return_range = []
-        for pk in range(self.current_pk):
+        for pk in self.content._index.keys():
             row = self.content.find(pk)[0]
             if row[index_of_column] != None: # ensure the index is less than the length of row
                 this_value = row[index_of_column]
