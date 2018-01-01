@@ -131,14 +131,13 @@ class Table():
                 if this_value <= value:
                     return_range.append(row)
         return return_range # return a list of tuples(rows)
-
+        
     def write_file(self, filename):
         """
         output the data to filename with the following binary format:
         
         -> current_pk \xFF len(col_names) \xFF {col_name \xFF} {pk \xFF {cell element \xFF}}
         """
-        print(os.getcwd())
         out_data = open(filename, 'wb')
         out_data.write(str(self.current_pk).encode('utf8'))
         out_data.write(b'\xff')
