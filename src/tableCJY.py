@@ -7,13 +7,12 @@ class Table():
     self._indice: the dictionary containing each value's position
     """
 
-    pk_value = 0
-
     def __init__(self, cols: list):
         """initialize an empty table with needed columns"""
         self._cols = cols
         self._indices = Index()
         self._data = Index()
+        self.pk_value = 0
         for col_name in cols:
             self._indices.insert((col_name, Index()))
 
@@ -39,12 +38,12 @@ class Table():
                     for i, k in enumerate(self._cols):
                         if k in row:
                             _row[i] = row[k]
-                self._data.insert((Table.pk_value, tuple(_row)))
+                self._data.insert((self.pk_value, tuple(_row)))
                 m = 0
                 for col_name in self._cols:
-                    self._indices._index[col_name][0].insert((_row[m], Table.pk_value))
+                    self._indices._index[col_name][0].insert((_row[m], self.pk_value))
                     m += 1
-                Table.pk_value += 1
+                self.pk_value += 1
             else:
                 raise TypeError("Error! The row should be an instance of dict, list, or tuple.")
         else:
@@ -55,9 +54,7 @@ class Table():
         find all rows given the column string and value string
         return all corresponding rows appended as a list
         """
-        if col not in self._cols:
-            return []
-        if value not in self._indices._index[col][0]._index:
+        if col not in self._cols or value not in self._indices._index[col][0]._index:
             return []
         result = self._indices._index[col][0]._index[value]
         ret = []
@@ -69,9 +66,7 @@ class Table():
     def value_remove(self, col:str, value: str):
         """remove the row(s) which contain the target value,
         and update the each value's index"""
-        if col not in self._cols:
-            return []
-        if value not in self._indices._index[col][0]._index:
+        if col not in self._cols or value not in self._indices._index[col][0]._index:
             return []
         del_row = self._indices._index[col][0]._index[value]
         change = {}
@@ -87,10 +82,8 @@ class Table():
                         if self._indices._index[c][0]._index[v][l] == pk and first_time:
                             change[str(change_time)] = [c, v, l]
                             first_time = False
-                            l = len(self._indices._index[c][0]._index[v])
                         elif self._indices._index[c][0]._index[v][l] == pk:
                             change[str(change_time)] += [l]
-                            l = len(self._indices._index[c][0]._index[v])
                 if len(change[str(change_time)]) != 0:
                     change_time += 1
         for k,v in change.items():
@@ -99,6 +92,22 @@ class Table():
                 li += [v[i]]
             for index in range(0,len(li)):
                 del self._indices._index[v[0]][0]._index[v[1]][li[len(li) - 1 - index]]
+
+
+    def gen_index(self, col_name):
+        pass
+    
+    def read_file(self, filename):
+        filename = open("output.txt","r")
+        print(filename.readlines())
+        filename.close()
+
+    def write_file(self, filename):
+        filename = open("output.txt","w")
+        print("%s",self._cols)
+        for pk,v in self._data._index.items():
+            print("%s\n",v)
+        filename.close()
 
 if __name__ == "__main__":
     table = Table(["id", "name"])
