@@ -2,6 +2,7 @@
 @author: Lok
 '''
 
+import os
 from indexing import Index
 
 class Table():
@@ -130,6 +131,33 @@ class Table():
                 if this_value <= value:
                     return_range.append(row)
         return return_range # return a list of tuples(rows)
+
+    def write_file(self, filename):
+        """
+        output the data to filename with the following binary format:
+        
+        -> current_pk \xFF len(col_names) \xFF {col_name \xFF} {pk \xFF {cell element \xFF}}
+        """
+        print(os.getcwd())
+        out_data = open(filename, 'wb')
+        out_data.write(str(self.current_pk).encode('utf8'))
+        out_data.write(b'\xff')
+        out_data.write(str(len(self.col_names)).encode('utf8'))
+        out_data.write(b'\xff')
+        
+        for col_name in self.col_names:
+            out_data.write(col_name.encode('utf8'))
+            out_data.write(b'\xff')
+        
+        for pk in self.content._index.keys():
+            out_data.write(str(pk).encode('utf8'))
+            out_data.write(b'\xff')
+            row = self.content.find(pk)[0]
+            for element in row:
+                if element != None:
+                    out_data.write(element.encode('utf8'))
+                out_data.write(b'\xff')
+        out_data.close()
     
 if __name__ == '__main__':
     # tests start here.
@@ -138,6 +166,7 @@ if __name__ == '__main__':
     table.add(("Pork", "False"))
     table.add(("6", "True"))
     table.add(("6", "False"))
+    table.write_file('C:\mahouDB\src\data.bin')
     
     print(table.lower_bound("food", "Beef"))
     print(table.upper_bound("food", "Beef"))
