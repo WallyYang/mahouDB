@@ -9,6 +9,10 @@ t.add(("3", "wally3", "tom"))
 t.add(("4", "wally4", "tom", "hello"))
 t.add(("4", "wally42", "tom", "hello"))
 t.add(("4", "wally43", "tom"))
+
+t.write_file('C:\mahouDB\src\data.bin')
+t.read_file('C:\mahouDB\src\data.bin')
+
 test.cmp(t.find("id", "1"), [("1", "wally", None, None)])
 test.cmp(t.find("id", "4"), [("4", "wally4", "tom", "hello"), ("4", "wally42", "tom", "hello"), ("4", "wally43", "tom", None)])
 test.cmp(t.find("loc", "18"), [("2", "wally2", "18", None)])
