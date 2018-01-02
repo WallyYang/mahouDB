@@ -176,7 +176,6 @@ class Table():
                 pk = int(pk, 10)
         in_data.close()
         
-        
     def write_file(self, filename):
         """
         output the data to filename with the following binary format:
