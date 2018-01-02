@@ -5,6 +5,17 @@
 import os
 from indexing import Index
 
+def get_next_string(input):
+    byte = b''
+    current_byte = input.read(1)
+    while current_byte != b'\xFF' and current_byte != b'':
+        byte = byte + current_byte
+        current_byte = input.read(1)
+    str = None
+    if byte != b'':
+        str = byte.decode('utf8')
+    return str
+
 class Table():
     """
     the database table
@@ -132,6 +143,40 @@ class Table():
                     return_range.append(row)
         return return_range # return a list of tuples(rows)
         
+    def read_file(self, filename):
+        in_data = open(filename, 'rb')
+        self.content = Index()
+        self.col_name_indices = Index()
+        current_pk = int(get_next_string(in_data), 10)
+        self.current_pk = current_pk
+        col_num = int(get_next_string(in_data), 10)
+        col_names = []
+        self.col_name_indices = Index()
+        
+        for i in range(col_num):
+            col_name = get_next_string(in_data)
+            col_names.append(col_name)
+            self.col_name_indices.insert((col_name, Index()))
+        self.col_names = tuple(col_names)
+        
+        pk = get_next_string(in_data)
+        if pk != None:
+            pk = int(pk, 10)
+        while pk != None:
+            row = []
+            for i in range(col_num):
+                element = get_next_string(in_data)
+                row.append(element)
+                if element != None:
+                    col_index = self.col_name_indices.find(self.col_names[i])
+                    col_index[0].insert((element, pk))
+            self.content.insert((pk, tuple(row)))
+            pk = get_next_string(in_data)
+            if pk != None:
+                pk = int(pk, 10)
+        in_data.close()
+        
+        
     def write_file(self, filename):
         """
         output the data to filename with the following binary format:
@@ -165,7 +210,8 @@ if __name__ == '__main__':
     table.add(("Pork", "False"))
     table.add(("6", "True"))
     table.add(("6", "False"))
-    table.write_file('C:\mahouDB\src\data.bin')
+    # table.write_file('C:\mahouDB\src\data.bin')
+    # table.read_file('C:\mahouDB\src\data.bin')
     
     print(table.lower_bound("food", "Beef"))
     print(table.upper_bound("food", "Beef"))
