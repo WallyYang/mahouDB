@@ -1,4 +1,4 @@
-from table_by_Lok import Table
+from table import Table
 import test
 
 t = Table(("id", "name", "loc", "note"))
