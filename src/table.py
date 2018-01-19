@@ -196,27 +196,4 @@ class Table():
                     out_data.write(element.encode('utf8'))
                 out_data.write(b'\xff')
         out_data.close()
-    
-if __name__ == '__main__':
-    # tests start here.
-    table = Table(("food", "boolean"))
-    table.add(("Beef", "True"))
-    table.add(("Pork", "False"))
-    table.add(("6", "True"))
-    table.add(("6", "False"))
-    # table.write_file('C:\mahouDB\src\data.bin')
-    # table.read_file('C:\mahouDB\src\data.bin')
-    
-    print(table.lower_bound("food", "Beef"))
-    print(table.upper_bound("food", "Beef"))
-    print(table.lower_bound("boolean", "False"))
-    print(table.upper_bound("boolean", "False"))
-    print()
-    
-    table.remove("boolean", "True")
-    print(table.find("boolean", "False"))
-    table.remove("food", "Pork")
-    print(table.find("food", "Pork"))
-    print(table.find("food", "Beef"))
-    print(table.find("boolean", "False"))
         
