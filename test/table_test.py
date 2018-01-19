@@ -13,8 +13,8 @@ t.add(("4", "wally4", "tom", "hello"))
 t.add(("4", "wally42", "tom", "hello"))
 t.add(("4", "wally43", "tom"))
 
-t.write_file('C:\mahouDB\src\data.bin')
-t.read_file('C:\mahouDB\src\data.bin')
+t.write_file(os.path.abspath(os.path.dirname(__file__))+'\data.bin')
+t.read_file(os.path.abspath(os.path.dirname(__file__))+'\data.bin')
 
 test.cmp(t.find("id", "1"), [("1", "wally", None, None)])
 test.cmp(t.find("id", "4"), [("4", "wally4", "tom", "hello"), ("4", "wally42", "tom", "hello"), ("4", "wally43", "tom", None)])
