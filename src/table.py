@@ -1,4 +1,3 @@
-import os
 from indexing import Index
 
 def get_next_string(input):
