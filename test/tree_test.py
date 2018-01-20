@@ -2,26 +2,27 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from red_black_tree_with_NIL_node import Tree
+import test
 
 if __name__ == '__main__':
     tree = Tree()
 
-    tree.insert(10)
-    tree.insert(3)
-    tree.insert(14)
-    tree.insert(17)
-    tree.insert(24)
-    tree.insert(42)
-    tree.insert(0)
-    tree.insert(25)
-    tree.insert(43)
-    tree.insert(45)
-    tree.insert(46)
-    tree.insert(44)
-    tree.insert(26)
-    tree.insert(222)
-    tree.insert(90)
-    tree.insert(55)
+    tree.insert((10, None))
+    tree.insert((3, None))
+    tree.insert((14, None))
+    tree.insert((17, None))
+    tree.insert((24, None))
+    tree.insert((42, None))
+    tree.insert((0, None))
+    tree.insert((25, None))
+    tree.insert((43, None))
+    tree.insert((45, None))
+    tree.insert((46, None))
+    tree.insert((44, None))
+    tree.insert((26, None))
+    tree.insert((222, None))
+    tree.insert((90, None))
+    tree.insert((55, None))
     tree.delete(24)
     tree.delete(44)
     tree.delete(45)
@@ -37,3 +38,25 @@ if __name__ == '__main__':
     tree.delete(25)
     tree.delete(90)
     tree.print_tree_dot()
+    
+    # Test case 2
+    tree2 = Tree()
+    
+    tree2.insert((1, "number 1"))
+    tree2.insert((17, "number 17"))
+    tree2.insert((33, "number 33"))
+    tree2.insert((12, "number 12"))
+    tree2.insert((151, "number 151"))
+    tree2.insert((87, "number 87"))
+    tree2.insert((62, "number 62"))
+    tree2.insert((98, "number 98"))
+    
+    test.cmp(tree2.find(17), "number 17")
+    test.cmp(tree2.find(151), "number 151")
+    test.cmp(tree2.find(62), "number 62")
+    test.cmp(tree2.find(151), "number 151")
+    
+    tree2.delete(87)
+    
+    tree2.print_tree_dot()
+    
