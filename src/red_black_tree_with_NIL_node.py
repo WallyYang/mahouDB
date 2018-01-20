@@ -201,8 +201,8 @@ class Tree():
     def find_node(self, data):
         x = self.root
         target = x
-        while target._data != data:
-            if data < target._data:
+        while target._data[0] != data:
+            if data < target._data[0]:
                 target = x._left
                 target._parent = x
                 x = x._left
