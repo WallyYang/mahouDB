@@ -135,7 +135,7 @@ class Tree():
             x = self.root
             done = False
             while not done:
-                if data < x._data:
+                if data[0] < x._data[0]:
                     x = x._left
                 else:
                     x = x._right
