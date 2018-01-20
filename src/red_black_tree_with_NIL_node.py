@@ -293,4 +293,17 @@ class Tree():
             x._is_black = True
 
     def find(self, data):
-        pass
+        return_value = None
+        if data != None:
+            done = False
+            current_node = self.root
+            while current_node != None and current_node._data != None and not done:
+                current_data = current_node._data[0]
+                if current_data == data:
+                    return_value = current_node._data[1]
+                    done = True
+                elif data < current_data:
+                    current_node = current_node._left
+                else:
+                    current_node = current_node._right
+        return return_value
