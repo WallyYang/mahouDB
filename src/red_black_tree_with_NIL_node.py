@@ -316,7 +316,7 @@ class Tree():
                 else:
                     current_node = current_node._right
         return return_value
-        
+    
     def lower_bound(self, value):
         return_value = []
         current_node = self.root
@@ -359,4 +359,18 @@ class Tree():
             right_subtree.root = current_node._right
             return_value.extend(left_subtree.lower_bound(lower_bound))
             return_value.extend(right_subtree.upper_bound(upper_bound))
+        return return_value
+    
+    def keys(self):
+        return_value = []
+        task_list = []
+        if self.root != None and self.root._data != None:
+            task_list.append(self.root)
+        while len(task_list) > 0:
+            current_node = task_list.pop()
+            return_value.append(current_node._data[0])
+            if current_node._left != None and current_node._left._data != None:
+                task_list.append(current_node._left)
+            if current_node._right != None and current_node._right._data != None:
+                task_list.append(current_node._right)
         return return_value
