@@ -1,4 +1,4 @@
-from indexing import Index
+from indexing_with_tree import Index
 
 def get_next_string(input):
     byte = b''
