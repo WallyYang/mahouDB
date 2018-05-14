@@ -104,11 +104,11 @@ class Tree():
             self.root.print_node_dot()
         print("}")
 
-    def contains(self, data):
+    def contains(self, key):
         if self.root == None:
             return False
         else:
-            return self.root.contains(data)
+            return self.root.contains(key)
 
     def left_rotate(self, node):
         new_node = node._right
