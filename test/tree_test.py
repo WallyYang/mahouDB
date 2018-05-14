@@ -23,6 +23,7 @@ if __name__ == '__main__':
     tree.insert((222, None))
     tree.insert((90, None))
     tree.insert((55, None))
+    
     tree.delete(24)
     tree.delete(44)
     tree.delete(45)
@@ -57,6 +58,18 @@ if __name__ == '__main__':
     test.cmp(tree2.find(151), "number 151")
     
     tree2.delete(87)
+    
+    lb1 = tree2.lower_bound(20)
+    lb1.sort()
+    test.cmp(lb1, [(33, "number 33"), (62, "number 62"), (98, "number 98"), (151, "number 151")])
+    up1 = tree2.upper_bound(20)
+    up1.sort()
+    test.cmp(up1, [(1, "number 1"), (12, "number 12"), (17, "number 17")])
+    test.cmp(tree2.range(5, 6), [])
+    test.cmp(tree2.range(12, 13), [(12, "number 12")])
+    rng3 = tree2.range(0, 160)
+    rng3.sort()
+    test.cmp(rng3, [(1, "number 1"), (12, "number 12"), (17, "number 17"), (33, "number 33"), (62, "number 62"), (98, "number 98"), (151, "number 151")])
     
     tree2.print_tree_dot()
     
