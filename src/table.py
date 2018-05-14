@@ -126,6 +126,16 @@ class Table():
         pks = col_index[0].upper_bound(value)
         return [self.content.find(pk)[0] for pk in pks] # return a list of tuples(rows)
         
+    def range(self, col_name, lower_bound, upper_bound) -> list:
+        if not col_name in self.col_names:
+            raise Exception("the column name is not legal")
+        if lower_bound == None or upper_bound == None:
+            raise TypeError("the values cannot be None")
+            
+        col_index = self.col_name_indices.find(col_name)
+        pks = col_index[0].range(lower_bound, upper_bound)
+        return [self.content.find(pk)[0] for pk in pks] # return a list of tuples(rows)
+        
     def read_file(self, filename):
         in_data = open(filename, 'rb')
         self.content = Index()
