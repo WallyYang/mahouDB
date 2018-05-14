@@ -334,3 +334,16 @@ class Tree():
             else:
                 current_node = current_node._right
         return return_value
+        
+    def upper_bound(self, value):
+        return_value = []
+        current_node = self.root
+        while current_node != None and current_node._data != None:
+            current_data = current_node._data
+            if current_data[0] <= value:
+                return_value.append(current_data)
+                return_value.extend(tree_values(current_node._left))
+                current_node = current_node._right
+            else:
+                current_node = current_node._left
+        return return_value
