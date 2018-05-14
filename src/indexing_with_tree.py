@@ -48,3 +48,6 @@ class Index():
         if list == None:
             list = []
         return list
+
+    def keys(self):
+        return self._index.keys()
