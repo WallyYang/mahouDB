@@ -13,7 +13,7 @@ def tree_values(root_node):
         task_list.append(root_node)
     while len(task_list) > 0:
         current_node = task_list.pop()
-        return_value.append(current_node._data)
+        return_value.append(current_node._data[1])
         if current_node._left != None and current_node._left._data != None:
             task_list.append(current_node._left)
         if current_node._right != None and current_node._right._data != None:
@@ -323,7 +323,7 @@ class Tree():
         while current_node != None and current_node._data != None:
             current_data = current_node._data
             if current_data[0] >= value:
-                return_value.append(current_data)
+                return_value.append(current_data[1])
                 return_value.extend(tree_values(current_node._right))
                 current_node = current_node._left
             else:
@@ -336,7 +336,7 @@ class Tree():
         while current_node != None and current_node._data != None:
             current_data = current_node._data
             if current_data[0] <= value:
-                return_value.append(current_data)
+                return_value.append(current_data[1])
                 return_value.extend(tree_values(current_node._left))
                 current_node = current_node._right
             else:
@@ -352,7 +352,7 @@ class Tree():
             else:
                 current_node = current_node._right
         if current_node != None and current_node._data != None:
-            return_value.append(current_node._data)
+            return_value.append(current_node._data[1])
             left_subtree = Tree()
             left_subtree.root = current_node._left
             right_subtree = Tree()
