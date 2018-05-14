@@ -112,15 +112,9 @@ class Table():
         if value == None:
             raise TypeError("the value cannot be None")
             
-        index_of_column = self.col_names.index(col_name)
-        return_range = []
-        for pk in self.content._index.keys():
-            row = self.content.find(pk)[0]
-            if row[index_of_column] != None: # ensure the index is less than the length of row
-                this_value = row[index_of_column]
-                if this_value >= value:
-                    return_range.append(row)
-        return return_range # return a list of tuples(rows)
+        col_index = self.col_name_indices.find(col_name)
+        pks = col_index[0].lower_bound(value)
+        return [self.content.find(pk)[0] for pk in pks] # return a list of tuples(rows)
         
     def upper_bound(self, col_name, value) -> list:
         if not col_name in self.col_names:
@@ -128,15 +122,9 @@ class Table():
         if value == None:
             raise TypeError("the value cannot be None")
             
-        index_of_column = self.col_names.index(col_name)
-        return_range = []
-        for pk in self.content._index.keys():
-            row = self.content.find(pk)[0]
-            if row[index_of_column] != None: # ensure the index is less than the length of row
-                this_value = row[index_of_column]
-                if this_value <= value:
-                    return_range.append(row)
-        return return_range # return a list of tuples(rows)
+        col_index = self.col_name_indices.find(col_name)
+        pks = col_index[0].upper_bound(value)
+        return [self.content.find(pk)[0] for pk in pks] # return a list of tuples(rows)
         
     def read_file(self, filename):
         in_data = open(filename, 'rb')
