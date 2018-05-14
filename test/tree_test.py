@@ -61,15 +61,15 @@ if __name__ == '__main__':
     
     lb1 = tree2.lower_bound(20)
     lb1.sort()
-    test.cmp(lb1, [(33, "number 33"), (62, "number 62"), (98, "number 98"), (151, "number 151")])
+    test.cmp(lb1, ["number 151", "number 33", "number 62", "number 98"])
     up1 = tree2.upper_bound(20)
     up1.sort()
-    test.cmp(up1, [(1, "number 1"), (12, "number 12"), (17, "number 17")])
+    test.cmp(up1, ["number 1", "number 12", "number 17"])
     test.cmp(tree2.range(5, 6), [])
-    test.cmp(tree2.range(12, 13), [(12, "number 12")])
+    test.cmp(tree2.range(12, 13), ["number 12"])
     rng3 = tree2.range(0, 160)
     rng3.sort()
-    test.cmp(rng3, [(1, "number 1"), (12, "number 12"), (17, "number 17"), (33, "number 33"), (62, "number 62"), (98, "number 98"), (151, "number 151")])
+    test.cmp(rng3, ["number 1", "number 12", "number 151", "number 17", "number 33", "number 62", "number 98"])
     
     tree2.print_tree_dot()
     
