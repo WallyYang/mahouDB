@@ -347,3 +347,21 @@ class Tree():
             else:
                 current_node = current_node._left
         return return_value
+        
+    def range(self, lower_bound, upper_bound):
+        return_value = []
+        current_node = self.root
+        while current_node != None and current_node._data != None and (current_node._data[0] > upper_bound or current_node._data[0] < lower_bound):
+            if current_node._data[0] > upper_bound:
+                current_node = current_node._left
+            else:
+                current_node = current_node._right
+        if current_node != None and current_node._data != None:
+            return_value.append(current_node._data)
+            left_subtree = Tree()
+            left_subtree.root = current_node._left
+            right_subtree = Tree()
+            right_subtree.root = current_node._right
+            return_value.extend(left_subtree.lower_bound(lower_bound))
+            return_value.extend(right_subtree.upper_bound(upper_bound))
+        return return_value
