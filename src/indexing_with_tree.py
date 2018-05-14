@@ -48,6 +48,20 @@ class Index():
         if list == None:
             list = []
         return list
-
+        
+        
     def keys(self):
         return self._index.keys()
+        
+        
+    def lower_bound(self, value):
+        return self._index.lower_bound(value)
+        
+        
+    def upper_bound(self, value):
+        return self._index.upper_bound(value)
+        
+        
+    def range(self, lower_bound, upper_bound):
+        return self._index.range(lower_bound, upper_bound)
+        
