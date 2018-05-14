@@ -50,12 +50,12 @@ class Node():
         if self._data == data:
             return True
         elif data < self._data:
-            if self._left == None:
+            if self._left._data == None:
                 return False
             else:
                 return self._left.contains(data)
         else:
-            if self._right == None:
+            if self._right._data == None:
                 return False
             else:
                 return self._right.contains(data)
