@@ -187,7 +187,7 @@ class Table():
             out_data.write(col_name.encode('utf8'))
             out_data.write(b'\xff')
         
-        for pk in self.content._index.keys():
+        for pk in self.content.keys():
             out_data.write(str(pk).encode('utf8'))
             out_data.write(b'\xff')
             row = self.content.find(pk)[0]
