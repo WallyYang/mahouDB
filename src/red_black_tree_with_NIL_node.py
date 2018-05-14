@@ -213,17 +213,12 @@ class Tree():
         n2._parent = n1._parent
 
     def find_node(self, data):
-        x = self.root
-        target = x
+        target = self.root
         while target._data[0] != data:
             if data < target._data[0]:
-                target = x._left
-                target._parent = x
-                x = x._left
+                target = target._left
             else:
-                target = x._right
-                target._parent = x
-                x = x._right
+                target = target._right
         return target
 
     def delete(self, data):
