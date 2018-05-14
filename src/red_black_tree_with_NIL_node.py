@@ -6,6 +6,20 @@ def compare(v1: tuple, v2: tuple) -> int:
     else:
         return 0 if v1[1] == v2[1] else -1 if v1[1] < v2[1] else 1
 
+def tree_values(root_node):
+    return_value = []
+    task_list = []
+    if root_node != None and root_node._data != None:
+        task_list.append(root_node)
+    while len(task_list) > 0:
+        current_node = task_list.pop()
+        return_value.append(current_node._data)
+        if current_node._left != None and current_node._left._data != None:
+            task_list.append(current_node._left)
+        if current_node._right != None and current_node._right._data != None:
+            task_list.append(current_node._right)
+    return return_value
+        
 class Node():
     def __init__(self,
                  data: tuple,
