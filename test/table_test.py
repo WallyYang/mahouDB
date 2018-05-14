@@ -54,6 +54,11 @@ ub = t2.upper_bound("boolean", "False")
 ub.sort()
 test.cmp(ub, [('6', 'False'), ('Pork', 'False')])
 
+rng = t2.range("boolean", "False", "True")
+rng.sort()
+test.cmp(rng, [('6', 'False'), ('6', 'True'), ('Beef', 'True'), ('Pork', 'False')])
+test.cmp(t2.range("food", "C", "D"), [])
+
 t2.remove("boolean", "True")
 test.cmp(t2.find("boolean", "False"), [('Pork', 'False'), ('6', 'False')])
 t2.remove("food", "Pork")
