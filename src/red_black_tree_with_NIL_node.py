@@ -60,19 +60,19 @@ class Node():
             print(""" NoneR%s [ shape="box", label="NIL", fontsize="10", fillcolor="black" ];""" % (node_name))
             print(""" %s -> NoneR%s;""" % (node_name, node_name))
 
-    def contains(self, data):
-        if self._data == data:
+    def contains(self, key):
+        if self._data[0] == key:
             return True
-        elif data < self._data:
+        elif key < self._data[0]:
             if self._left._data == None:
                 return False
             else:
-                return self._left.contains(data)
+                return self._left.contains(key)
         else:
             if self._right._data == None:
                 return False
             else:
-                return self._right.contains(data)
+                return self._right.contains(key)
 
     def min(self):
         check = True
