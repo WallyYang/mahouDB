@@ -230,15 +230,15 @@ class Tree():
             self.rb_transplant(del_node, min_node)
             
             min_node._left=del_node._left
-            if min_node._left != None:
-                min_node._left._parent = min_node
+            min_node._left._parent = min_node
             min_node._right=del_node._right
-            if min_node._right != None:
-                min_node._right._parent = min_node
+            min_node._right._parent = min_node
             
             min_node._is_black=del_node._is_black # Substitute the color
         if removed_color:
             self.rb_delete_fixup(x)
+        if self.root == None or self.root._data == None:
+            self.root = None
 
     def rb_delete_fixup(self, x):
         # heavily rely on the algorithm on CLRS
