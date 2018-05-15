@@ -45,7 +45,7 @@ class Index():
         return an empty list if not found
         """
         list = self._index.find(column_value)
-        if list == None:
+        if list is None:
             list = []
         return list
         
