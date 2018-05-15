@@ -70,7 +70,7 @@ class Table():
             
         self.content.insert((self.current_pk, row))
         for i in range(len(row)):
-            if row[i] != None:
+            if not row[i] is None:
                 col_index = self.col_name_indices.find(self.col_names[i])
                 col_index[0].insert((row[i], self.current_pk))
         self.current_pk += 1
@@ -85,7 +85,7 @@ class Table():
         for pk in pks:
             row = self.content.find(pk)[0]
             for i in range(len(row)):
-                if row[i] != None:
+                if not row[i] is None:
                     col_index = self.col_name_indices.find(self.col_names[i])
                     pk_list = col_index[0].find(row[i])
                     pk_list.remove(pk)
@@ -153,19 +153,19 @@ class Table():
         self.col_names = tuple(col_names)
         
         pk = get_next_string(in_data)
-        if pk != None:
+        if not pk is None:
             pk = int(pk, 10)
-        while pk != None:
+        while not pk is None:
             row = []
             for i in range(col_num):
                 element = get_next_string(in_data)
                 row.append(element)
-                if element != None:
+                if not element is None:
                     col_index = self.col_name_indices.find(self.col_names[i])
                     col_index[0].insert((element, pk))
             self.content.insert((pk, tuple(row)))
             pk = get_next_string(in_data)
-            if pk != None:
+            if not pk is None:
                 pk = int(pk, 10)
         in_data.close()
         
@@ -190,7 +190,7 @@ class Table():
             out_data.write(b'\xff')
             row = self.content.find(pk)[0]
             for element in row:
-                if element != None:
+                if not element is None:
                     out_data.write(element.encode('utf8'))
                 out_data.write(b'\xff')
         out_data.close()
