@@ -109,7 +109,7 @@ class Table():
     def lower_bound(self, col_name, value) -> list:
         if not col_name in self.col_names:
             raise Exception("the column name is not legal")
-        if value == None:
+        if value is None:
             raise TypeError("the value cannot be None")
             
         col_index = self.col_name_indices.find(col_name)
@@ -119,7 +119,7 @@ class Table():
     def upper_bound(self, col_name, value) -> list:
         if not col_name in self.col_names:
             raise Exception("the column name is not legal")
-        if value == None:
+        if value is None:
             raise TypeError("the value cannot be None")
             
         col_index = self.col_name_indices.find(col_name)
@@ -129,7 +129,7 @@ class Table():
     def range(self, col_name, lower_bound, upper_bound) -> list:
         if not col_name in self.col_names:
             raise Exception("the column name is not legal")
-        if lower_bound == None or upper_bound == None:
+        if lower_bound is None or upper_bound is None:
             raise TypeError("the values cannot be None")
             
         col_index = self.col_name_indices.find(col_name)
