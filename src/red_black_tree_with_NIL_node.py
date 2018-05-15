@@ -9,14 +9,14 @@ def compare(v1: tuple, v2: tuple) -> int:
 def tree_values(root_node):
     return_value = []
     task_list = []
-    if root_node != None and root_node._data != None:
+    if not root_node is None and not root_node._data is None:
         task_list.append(root_node)
     while len(task_list) > 0:
         current_node = task_list.pop()
         append_or_extend(return_value, current_node._data[1])
-        if current_node._left != None and current_node._left._data != None:
+        if not current_node._left is None and not current_node._left._data is None:
             task_list.append(current_node._left)
-        if current_node._right != None and current_node._right._data != None:
+        if not current_node._right is None and not current_node._right._data is None:
             task_list.append(current_node._right)
     return return_value
         
@@ -53,13 +53,13 @@ class Node():
         color = "black" if self._is_black else "red"
         print(""" %s [ label="%s", fillcolor="%s" ];""" % (node_name, self._data, color))
 
-        if self._left._data != None:
+        if not self._left._data is None:
             self._left.print_node_dot()
             print(""" %s -> node%s;""" % (node_name, id(self._left)))
         else:
             print(""" NoneL%s [ shape="box", label="NIL", fontsize="10", fillcolor="black" ];""" % (node_name))
             print(""" %s -> NoneL%s;""" % (node_name, node_name))
-        if self._right._data != None:
+        if not self._right._data is None:
             self._right.print_node_dot()
             print(""" %s -> node%s;""" % (node_name, id(self._right)))
         else:
@@ -70,12 +70,12 @@ class Node():
         if self._data[0] == key:
             return True
         elif key < self._data[0]:
-            if self._left._data == None:
+            if self._left._data is None:
                 return False
             else:
                 return self._left.contains(key)
         else:
-            if self._right._data == None:
+            if self._right._data is None:
                 return False
             else:
                 return self._right.contains(key)
@@ -84,7 +84,7 @@ class Node():
         check = True
         copy = self
         while check:
-            if copy._left._data != None:
+            if not copy._left._data is None:
                 copy = copy._left
             else:
                 check = False
@@ -106,12 +106,12 @@ class Tree():
     def print_tree_dot(self):
         print("digraph {")
         print(""" node [ style="filled", fontcolor="white" ]""")
-        if self.root != None:
+        if not self.root is None:
             self.root.print_node_dot()
         print("}")
 
     def contains(self, key):
-        if self.root == None:
+        if self.root is None:
             return False
         else:
             return self.root.contains(key)
@@ -147,7 +147,7 @@ class Tree():
         node._parent = new_node
 
     def insert(self, data):
-        if self.root == None:
+        if self.root is None:
             self.root = Node(data, True, None)
             self.root._left = Node(None, True, self.root)
             self.root._right = Node(None, True, self.root)
@@ -159,13 +159,13 @@ class Tree():
                     x = x._left
                 else:
                     x = x._right
-                if x._data == None:
+                if x._data is None:
                     x._data = data
                     x._is_black = False
                     x._left = Node(None, True, x)
                     x._right = Node(None, True, x)
                     done = True     
-            while x._parent != None and x._parent._parent != None and not x._parent._is_black:
+            while not x._parent is None and not x._parent._parent is None and not x._parent._is_black:
                 parent = x._parent
                 grandparent = parent._parent
                 sibling_of_parent = None
@@ -174,7 +174,7 @@ class Tree():
                 elif parent == grandparent._right:
                     sibling_of_parent = grandparent._left
                 # Case 1
-                if sibling_of_parent._data != None and not sibling_of_parent._is_black:
+                if not sibling_of_parent._data is None and not sibling_of_parent._is_black:
                     parent._is_black = True
                     sibling_of_parent._is_black = True
                     grandparent._is_black = False
@@ -210,7 +210,7 @@ class Tree():
             self.root._is_black = True
 
     def rb_transplant(self, n1, n2):
-        if n1._parent == None:
+        if n1._parent is None:
             self.root = n2
         elif n1 == n1._parent._left:
             n1._parent._left = n2
@@ -231,10 +231,10 @@ class Tree():
         del_node = self.find_node(data)
         removed_color = del_node._is_black
         x = None
-        if del_node._left._data == None:
+        if del_node._left._data is None:
             x = del_node._right
             self.rb_transplant(del_node, del_node._right)
-        elif del_node._right._data == None:
+        elif del_node._right._data is None:
             x = del_node._left
             self.rb_transplant(del_node, del_node._left)
         else:
@@ -252,13 +252,13 @@ class Tree():
             min_node._is_black=del_node._is_black # Substitute the color
         if removed_color:
             self.rb_delete_fixup(x)
-        if self.root == None or self.root._data == None:
+        if self.root is None or self.root._data is None:
             self.root = None
 
     def rb_delete_fixup(self, x):
         # heavily rely on the algorithm on CLRS
         while x != self.root and x._is_black:
-            if x == x._parent._left and x._parent._right._data != None:
+            if x == x._parent._left and not x._parent._right._data is None:
                 w = x._parent._right
                 # case 1
                 if not w._is_black:
@@ -267,11 +267,11 @@ class Tree():
                     self.left_rotate(x._parent)
                     w = x._parent._right
                 # case 2
-                if w._data != None and w._left._is_black and w._right._is_black:
+                if not w._data is None and w._left._is_black and w._right._is_black:
                     w._is_black = False
                     x = x._parent
                 # case 3
-                elif w._data != None:
+                elif not w._data is None:
                     if w._right._is_black:
                         w._left._is_black = True
                         w._is_black = False
@@ -283,17 +283,17 @@ class Tree():
                     w._right._is_black = True
                     self.left_rotate(x._parent)
                     x = self.root
-            elif x == x._parent._right and x._parent._left._data != None:
+            elif x == x._parent._right and not x._parent._left._data is None:
                 w = x._parent._left
                 if not w._is_black:
                     w._is_black = True
                     x._parent._is_black = False
                     self.right_rotate(x._parent)
                     w = x._parent._left
-                if w._data != None and w._right._is_black and w._left._is_black:
+                if not w._data is None and w._right._is_black and w._left._is_black:
                     w._is_black = False
                     x = x._parent
-                elif w._data != None:
+                elif not w._data is None:
                     if w._left._is_black:
                         w._right._is_black = True
                         w._is_black = False
@@ -304,15 +304,15 @@ class Tree():
                     w._left._is_black = True
                     self.right_rotate(x._parent)
                     x = self.root
-        if x != None:
+        if not x is None:
             x._is_black = True
 
     def find(self, data):
         return_value = None
-        if data != None:
+        if not data is None:
             done = False
             current_node = self.root
-            while current_node != None and current_node._data != None and not done:
+            while not current_node is None and not current_node._data is None and not done:
                 current_data = current_node._data[0]
                 if current_data == data:
                     return_value = current_node._data[1]
@@ -326,7 +326,7 @@ class Tree():
     def lower_bound(self, value):
         return_value = []
         current_node = self.root
-        while current_node != None and current_node._data != None:
+        while not current_node is None and not current_node._data is None:
             current_data = current_node._data
             if current_data[0] >= value:
                 append_or_extend(return_value, current_data[1])
@@ -339,7 +339,7 @@ class Tree():
     def upper_bound(self, value):
         return_value = []
         current_node = self.root
-        while current_node != None and current_node._data != None:
+        while not current_node is None and not current_node._data is None:
             current_data = current_node._data
             if current_data[0] <= value:
                 append_or_extend(return_value, current_data[1])
@@ -352,12 +352,12 @@ class Tree():
     def range(self, lower_bound, upper_bound):
         return_value = []
         current_node = self.root
-        while current_node != None and current_node._data != None and (current_node._data[0] > upper_bound or current_node._data[0] < lower_bound):
+        while not current_node is None and not current_node._data is None and (current_node._data[0] > upper_bound or current_node._data[0] < lower_bound):
             if current_node._data[0] > upper_bound:
                 current_node = current_node._left
             else:
                 current_node = current_node._right
-        if current_node != None and current_node._data != None:
+        if not current_node is None and not current_node._data is None:
             append_or_extend(return_value, current_node._data[1])
             left_subtree = Tree()
             left_subtree.root = current_node._left
@@ -370,13 +370,13 @@ class Tree():
     def keys(self):
         return_value = []
         task_list = []
-        if self.root != None and self.root._data != None:
+        if not self.root is None and not self.root._data is None:
             task_list.append(self.root)
         while len(task_list) > 0:
             current_node = task_list.pop()
             return_value.append(current_node._data[0])
-            if current_node._left != None and current_node._left._data != None:
+            if not current_node._left is None and not current_node._left._data is None:
                 task_list.append(current_node._left)
-            if current_node._right != None and current_node._right._data != None:
+            if not current_node._right is None and not current_node._right._data is None:
                 task_list.append(current_node._right)
         return return_value
