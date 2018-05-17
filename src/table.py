@@ -89,6 +89,8 @@ class Table():
                     col_index = self.col_name_indices.find(self.col_names[i])
                     pk_list = col_index[0].find(row[i])
                     pk_list.remove(pk)
+                    if len(pk_list) == 0:
+                        col_index[0].remove(row[i])
             self.content.remove(pk)
             
     def find(self, col_name, value) -> list:
