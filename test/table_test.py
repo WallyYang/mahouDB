@@ -3,6 +3,8 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 from table import Table
 import test
+import time
+import random
 
 # Test case 1
 t1 = Table(("id", "name", "loc", "note"))
@@ -65,5 +67,44 @@ t2.remove("food", "Pork")
 test.cmp(t2.find("food", "Pork"), [])
 test.cmp(t2.find("food", "Beef"), [])
 test.cmp(t2.find("boolean", "False"), [('6', 'False')])
+
+# Advanced test 1 (10^6 row 3 columns)
+print("Advanced Test 1")
+COUNT = 1000000
+
+t = time.process_time()
+current_t = time.process_time()
+col_names = ("n", "reverse_n", "n_is_odd")
+at1 = Table(col_names)
+current_t = time.process_time() - current_t
+print("Time Use: " + str(current_t) + "s for initiation.")
+sys.stdout.flush()
+
+reverse_count = COUNT
+for i in range(COUNT):
+    at1.add((str(i), str(COUNT - i), str(i % 2 == 1)))
+    reverse_count -= 1
+    
+current_t = time.process_time() - current_t
+print("Time Use: " + str(current_t) + "s for adding.")
+sys.stdout.flush()
+
+for i in range(COUNT):
+    test.cmp(at1.find("n", str(i)), [(str(i), str(COUNT - i), str(i % 2 == 1))])
+current_t = time.process_time() - current_t
+print("Time Use: " + str(current_t) + "s for finding.")
+sys.stdout.flush()
+    
+for i in range(COUNT):
+    at1.remove("n", str(i))
+current_t = time.process_time() - current_t
+print("Time Use: " + str(current_t) + "s for removing.")
+sys.stdout.flush()
+
+test.cmp(at1.content._index.root, None)
+for col_name in col_names:
+    test.cmp(at1.col_name_indices._index.find(col_name)[0]._index.root, None)
+print("Total time use: " + str(time.process_time() - t) + "s.\n")
+sys.stdout.flush()
 
 print("OK")
